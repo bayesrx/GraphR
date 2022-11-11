@@ -1,0 +1,24 @@
+{
+    "args": [
+        "-std=gnu++11",
+        "-IC:/PROGRA~1/R/R-42~1.2/include",
+        "-DNDEBUG",
+        "-IC:/Users/chenliy/AppData/Local/R/win-library/4.2/Rcpp/include",
+        "-IC:/Users/chenliy/AppData/Local/R/win-library/4.2/RcppArmadillo/include",
+        "-nostdinc",
+        "-D__GNUC__=5",
+        "-D__GNUC_MINOR__=0",
+        "-D__GNUC_PATCHLEVEL__=2",
+        "-IC:/rtools42/x86_64-w64-mingw32.static.posix/lib/gcc/x86_64-w64-mingw32.static.posix/10.3.0/include/c++",
+        "-IC:/rtools42/x86_64-w64-mingw32.static.posix/lib/gcc/x86_64-w64-mingw32.static.posix/10.3.0/include/c++/x86_64-w64-mingw32.static.posix",
+        "-IC:/rtools42/x86_64-w64-mingw32.static.posix/lib/gcc/x86_64-w64-mingw32.static.posix/10.3.0/include/c++/backward",
+        "-IC:/rtools42/x86_64-w64-mingw32.static.posix/lib/gcc/x86_64-w64-mingw32.static.posix/10.3.0/include",
+        "-IC:/rtools42/x86_64-w64-mingw32.static.posix/include",
+        "-IC:/rtools42/x86_64-w64-mingw32.static.posix/lib/gcc/x86_64-w64-mingw32.static.posix/10.3.0/include-fixed"
+    ],
+    "pch": "RcppArmadillo",
+    "is_cpp": true,
+    "hash": "166758612216675857981667585682",
+    "compiler": "17486434899767519736",
+    "rversion": "4.2.2"
+}
