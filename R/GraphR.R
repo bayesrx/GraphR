@@ -109,7 +109,7 @@ pred_ind <- function(external_ind,
 
 
 
-graphR_est <- function(features, external, # input
+GraphR_est <- function(features, external, # input
                    a_pi = 1, b_pi = 4,  #hyperparameter
                    a_tau = 0.005, b_tau = 0.005, #hyperparameter
                    max_iter =2000, max_tol= 0.001 #implementation
@@ -133,7 +133,7 @@ graphR_est <- function(features, external, # input
     tmp <- mfvb(
       response,
       fir_l,
-      ex,
+      external,
       max_tol = max_tol,
       max_iter = max_iter,
       a_tau = a_tau,
@@ -188,7 +188,7 @@ graphR_est <- function(features, external, # input
 #'
 #' 4. FDR_p: Bayesian FDR-adjusted p values
 
-graphR_pred <- function(new_df,  ### new external covariates
+GraphR_pred <- function(new_df,  ### new external covariates
                         graphR_est_res = NULL,  ### results obtained from graphR_est
                         beta = NULL, phi = NULL, omega_diag = NULL){
   #graphR_est_res <- res

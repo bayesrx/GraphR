@@ -2,34 +2,34 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 create_Z <- function(fir_l, sec_l) {
-    .Call(`_graphR_create_Z`, fir_l, sec_l)
+    .Call(`_GraphR_create_Z`, fir_l, sec_l)
 }
 
 update_tau <- function(p, q, a_tau, b_tau, phi_old, e_b_sq_s1, e_tau_old) {
-    .Call(`_graphR_update_tau`, p, q, a_tau, b_tau, phi_old, e_b_sq_s1, e_tau_old)
+    .Call(`_GraphR_update_tau`, p, q, a_tau, b_tau, phi_old, e_b_sq_s1, e_tau_old)
 }
 
 update_pi <- function(a_pi, b_pi, phi_old) {
-    .Call(`_graphR_update_pi`, a_pi, b_pi, phi_old)
+    .Call(`_GraphR_update_pi`, a_pi, b_pi, phi_old)
 }
 
 update_lambda <- function(ztz, e_beta, var_beta, n, len_res_sq) {
-    .Call(`_graphR_update_lambda`, ztz, e_beta, var_beta, n, len_res_sq)
+    .Call(`_GraphR_update_lambda`, ztz, e_beta, var_beta, n, len_res_sq)
 }
 
 update_mu <- function(p, q, e_inv_lambda_new, phi_old, mu_old, e_beta, sigma_sq_new, response, Z) {
-    .Call(`_graphR_update_mu`, p, q, e_inv_lambda_new, phi_old, mu_old, e_beta, sigma_sq_new, response, Z)
+    .Call(`_GraphR_update_mu`, p, q, e_inv_lambda_new, phi_old, mu_old, e_beta, sigma_sq_new, response, Z)
 }
 
 update_phi <- function(e_logit_pi_new, sigma_sq_new, e_tau_new, mu_new) {
-    .Call(`_graphR_update_phi`, e_logit_pi_new, sigma_sq_new, e_tau_new, mu_new)
+    .Call(`_GraphR_update_phi`, e_logit_pi_new, sigma_sq_new, e_tau_new, mu_new)
 }
 
 mfvb <- function(response, fir_l, sec_l, a_tau, b_tau, a_pi, b_pi, max_iter, max_tol) {
-    .Call(`_graphR_mfvb`, response, fir_l, sec_l, a_tau, b_tau, a_pi, b_pi, max_iter, max_tol)
+    .Call(`_GraphR_mfvb`, response, fir_l, sec_l, a_tau, b_tau, a_pi, b_pi, max_iter, max_tol)
 }
 
 rcpp_hello_world <- function() {
-    .Call(`_graphR_rcpp_hello_world`)
+    .Call(`_GraphR_rcpp_hello_world`)
 }
 
