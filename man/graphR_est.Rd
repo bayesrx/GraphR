@@ -17,9 +17,14 @@ GraphR_est(
 }
 \arguments{
 \item{features}{Known as nodes in graphs among which connections are built.
-A \eqn{n \times p} matrix.}
+A \eqn{n \times p} matrix.
 
-\item{external}{External covariates. A \eqn{n \times q} matrix.}
+Note: Please standardize each features before plug into the estimation function}
+
+\item{external}{External covariates. A \eqn{n \times q} matrix.
+
+Note: Please standardize continuous external covariates before plug into the
+estimation function}
 
 \item{a_pi, b_pi}{\eqn{\pi \sim} Beta (\eqn{a_\pi,b_\pi})}
 

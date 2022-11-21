@@ -90,7 +90,12 @@ pred_ind <- function(external_ind,
 #' covariates in GraphR models
 #' @param features Known as nodes in graphs among which connections are built.
 #' A \eqn{n \times p} matrix.
+#'
+#' Note: Please standardize each features before plug into the estimation function
 #' @param external External covariates. A \eqn{n \times q} matrix.
+#'
+#' Note: Please standardize continuous external covariates before plug into the
+#' estimation function
 #' @param a_pi,b_pi \eqn{\pi \sim} Beta (\eqn{a_\pi,b_\pi})
 #' @param a_tau,b_tau \eqn{\tau \sim} Gamma (\eqn{a_\tau,b_\tau})
 #' @param max_iter maximum iterations
@@ -118,6 +123,9 @@ GraphR_est <- function(features, external, # input
   n <- nrow(features)
   q <- ncol(external)
 
+  if (n <= p*q){
+    warning("Low n/pq ratio may lead to inaccurate estimation")
+  }
   beta_list = phi_list = array(0,c(p,p,q))
   # variance: \omega_ii
   lambda_vec <- NULL
@@ -157,7 +165,7 @@ GraphR_est <- function(features, external, # input
 
   return(list(
     beta = beta_list,
-    phi = phi_list,
+    pip = phi_list,
     omega_diag = lambda_vec))
 }
 
@@ -169,6 +177,10 @@ GraphR_est <- function(features, external, # input
 #' Bayesian FDR-adjusted p-values are given.
 #' @param new_df A matrix of new external covarites based on which predicitons
 #' are made
+#'
+#' Note: Please standardize continuous external covariates before plug into the
+#' estimation function
+#'
 #' @param graphR_est_res Results of `graphR_est`
 #' @param beta: A \eqn{p \times p \times q} array storing coefficients of external
 #' covariates. The \eqn{[i,j,k]} elements represents the effect of \eqn{k^{th}}

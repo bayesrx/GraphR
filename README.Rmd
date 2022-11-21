@@ -1,5 +1,4 @@
 ---
-### github style or html style
 #output: github_document
 output: html_document
 ---
@@ -15,61 +14,83 @@ knitr::opts_chunk$set(
 )
 ```
 
-# SpaceX
+# GraphR overview
 
-<!-- badges: start -->
-<!-- badges: end -->
+<center><img src="GraphR_Method_plot_final.png" width="500" height="500" ></center>
 
-The goal of SpaceX is to provide shared and cluster specfic gene co-expression networks for spatial transcriptomics data.
+The GraphR (Graphical Regression) is a flexible approach which incorporates sample heterogenity and enables covariate-dependent graphs. Our regression-based method provides a functional mapping from the covariate space to precision matrix for different types of heterogeneous graphical model settings. GraphR is flexible in incorporating different scales of covariates; imposes sparsity in both edge and covariate selection and computationally efficient via use of variational Bayes algorithms. GraphR is implemented as an open-source R package.
+
 
 ## Installation
-
-This package requires a Fortran compiler in order to work.  Here are the instructions:
-
-+ Windows:  install the Rtools package that is appropriate for your version of R
-
-+ Mac:  Go to this website and follow the instructions:  (https://mac.R-project.org/tools/)
-
-+ Linux:  From a terminal, do the following: `sudo apt install gcc`.  That will bring in multiple compilers.
-
-
 
 The package requires a dependency that is not available on CRAN. Install it with:
 
 ``` r
-remotes::install_github("rdevito/MSFA")
+#remotes::install_github("ABC")
 ```
 
-You can install the released version of SpaceX from (https://github.com/SatwikAch/SpaceX) with:
+You can install the released version of GraphR from (https://github.com/bayesrx/GraphR) with:
 
 ``` r
-devtools::install_github("SatwikAch/SpaceX")
+#devtools::install_github("bayesrx/GraphR")
 ```
 
 
 ```{r}
+#library(GraphR)
+```
+
+## Example 
+An example code with one of the existing datasets to demonstrate how to run the functions and obtain inference.
+
+The estimation can be done by using "GraphR_est" function. The inputs of estimation of function include features (nodes) and external covariates which are $n \times p$ and $n \times q$ matrix respectively. Please note that our function doesn't provide standardization of features and external covariates, and thus please standardize features and external covariates before plugging into the function. Moreover the accuracy of estimation will decrease with small $n/pq$ ratio, and it is suggested to maintain $n/pq >1$. For priors, we assume $\pi \sim Beta(a_\pi, b_\pi)$ and $\tau \sim \Gamma(a_\tau, b_\tau)$. "GraphR_est" function returns a list containing the coefficient (Beta) and posterior inclusion probability (PIP) of external covaraites, and diagonal elements of precision matrix.
+
+We also provide prediction function: "GraphR_pred", requiring a new matrix based on which prediction are made, and the output of "GraphR_est" function. Optionally, one can also enter the the coefficient (Beta) and posterior inclusion probability (PIP) of external covaraites, and diagonal elements of precision matrix obtained from other functions as the input. The output contains information as following:
+(i) Corresponding external covariates values; 
+(ii) Indices of features; 
+(iii) Partial correlations between two features and PIPs of edges;
+(iv) Bayesian FDR-adjusted p-values.
+
+
+```{r}
+set.seed(1)
 library(GraphR)
+library(ghyp)
+library(dplyr)
+library(reshape2)
+
+load("pan_gyane.RData")
+gene_expr <- apply(gene_expr,2,scale)
+
+gene_expr[c(1:5),c(1:5)]
+external[c(1:5),]
+
+
+res <- GraphR_est(
+  gene_expr,
+  external,
+  a_pi = 1,
+  b_pi = 4,
+  a_tau = 0.005,
+  b_tau = 0.005,
+  max_iter = 2000,
+  max_tol = 0.001
+)
+
+####### prediction
+new_df <- diag(4)
+colnames(new_df) <- colnames(external)
+
+pred <- GraphR_pred(new_df, res)
+head(pred)
 ```
 
-```{r , eval=FALSE} 
-## Reading the Breast cancer data
 
-## Spatial locations
-head(BC_loc)
+## Shiny App and tutorial website 
+(link to the Shiny App and tutorial website)
 
-## Gene expression for data
-head(BC_count) 
+## Paper 
+(Link to the biorxiv version of the paper if we decide to put the paper on biorxiv) 
 
-## Data processing
-G <-dim(BC_count)[2] ## number of genes
-N <-dim(BC_count)[1] ## number of locations
-
-## Application to SpaceX algorithm
-BC_fit <- SpaceX(BC_count,BC_loc[,1:2],BC_loc[,3],sPMM=FALSE,Post_process = TRUE)
-
-## Shared_network :: Shared co-expression matrix
-## Cluster_network :: Cluster specific co-expression matrices
-
-```
-
-You can view the supplementary file at this link: https://bookdown.org/satwik91/SpaceX_supplementary/.
+## Supplementary file 
+(link to the bookdown file)

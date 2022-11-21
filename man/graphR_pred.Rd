@@ -14,7 +14,10 @@ GraphR_pred(
 }
 \arguments{
 \item{new_df}{A matrix of new external covarites based on which predicitons
-are made}
+are made
+
+Note: Please standardize continuous external covariates before plug into the
+estimation function}
 
 \item{graphR_est_res}{Results of `graphR_est`}
 
