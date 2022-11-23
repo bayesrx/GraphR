@@ -11,3 +11,4 @@ Imports: Rcpp (>= 1.0.7), RcppArmadillo, ghyp, dplyr, reshape2
 Depends: R
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 7.2.1
+Encoding: UTF-8

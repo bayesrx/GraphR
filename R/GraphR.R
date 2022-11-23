@@ -111,6 +111,30 @@ pred_ind <- function(external_ind,
 #'
 #' 3. omega_diag: A p vector with \eqn{i^{th}} element representing the inverse
 #' variance of error
+#' @examples
+#' set.seed(100)
+#' data("pam50")
+#'
+#' features <- apply(pam50$features,2,scale) %>% as.matrix()
+#' dim(features)
+#' features[c(1:5),c(1:5)]
+#'
+#' external <- pam50$external %>% as.matrix()
+#' dim(external)
+#' external[c(1:5),]
+#'
+#'
+#' system.time(res <- GraphR_est(
+#'   features,
+#'   external,
+#'   a_pi = 1,
+#'   b_pi = 4,
+#'   a_tau = 0.005,
+#'   b_tau = 0.005,
+#'   max_iter = 2000,
+#'   max_tol = 0.001
+#' ))
+#'
 
 
 
@@ -191,7 +215,7 @@ GraphR_est <- function(features, external, # input
 #' @param omega_diag: A p vector with \eqn{i^{th}} element representing the inverse
 #' variance of error
 #' @return
-#' 1. feature_id1, feature_id2: Iindices of nodes
+#' 1. feature_id1, feature_id2: Indices of nodes
 #'
 #' 2. Pr_inclusion: Posterior inclusion probability of connections between two nodes
 #' based on "And" rules.
@@ -199,6 +223,39 @@ GraphR_est <- function(features, external, # input
 #' 3. Correlation: Partial correlation between two nodes. Values with maximum magnitudes are provided
 #'
 #' 4. FDR_p: Bayesian FDR-adjusted p values
+#' @examples
+#' set.seed(100)
+#' data("pam50")
+#'
+#' features <- apply(pam50$features,2,scale) %>% as.matrix()
+#' features[c(1:5),c(1:5)]
+#'
+#' external <- pam50$external %>% as.matrix()
+#' external[c(1:5),]
+#'
+#'
+#' system.time(res <- GraphR_est(
+#'   features,
+#'   external,
+#'   a_pi = 1,
+#'   b_pi = 4,
+#'   a_tau = 0.005,
+#'   b_tau = 0.005,
+#'   max_iter = 2000,
+#'   max_tol = 0.001
+#' ))
+#'
+#' ####### prediction
+#' new_df <- diag(3)
+#' colnames(new_df) <- colnames(external)
+#'
+#' pred <- GraphR_pred(new_df, res)
+#' head(pred)
+#'
+#'
+#'
+#'
+#'
 
 GraphR_pred <- function(new_df,  ### new external covariates
                         graphR_est_res = NULL,  ### results obtained from graphR_est
@@ -265,12 +322,8 @@ GraphR_pred <- function(new_df,  ### new external covariates
 
 
 
-# ##############################
-# data <- read.csv("C:/Users/chenliy/Desktop/PhD/porject I code/application1_brca/data/pan_gy.csv")
-# ###############
-# features <- data[,c(6:10)] %>% as.matrix()
-# features <- apply(features,2,scale)
-# ex <- data[,c(2:5)] %>% as.matrix()
-# res <- graphR_est(features, ex)
-# new_df <- ex[c(1:6),]
-# new_pred <- graphR_pred(new_df = new_df, graphR_est_res = res)
+
+
+
+
+

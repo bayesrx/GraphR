@@ -1,6 +1,6 @@
 ---
-#output: github_document
-output: html_document
+output: github_document
+#output: html_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -53,21 +53,20 @@ We also provide prediction function: "GraphR_pred", requiring a new matrix based
 
 
 ```{r}
-set.seed(1)
+set.seed(100)
 library(GraphR)
-library(ghyp)
 library(dplyr)
-library(reshape2)
+data("pam50")
 
-load("pan_gyane.RData")
-gene_expr <- apply(gene_expr,2,scale)
+features <- apply(pam50$features,2,scale) %>% as.matrix()
+features[c(1:5),c(1:5)]
 
-gene_expr[c(1:5),c(1:5)]
+external <- pam50$external %>% as.matrix()
 external[c(1:5),]
 
 
-res <- GraphR_est(
-  gene_expr,
+system.time(res <- GraphR_est(
+  features,
   external,
   a_pi = 1,
   b_pi = 4,
@@ -75,13 +74,13 @@ res <- GraphR_est(
   b_tau = 0.005,
   max_iter = 2000,
   max_tol = 0.001
-)
+))
 
 ####### prediction
-new_df <- diag(4)
+new_df <- diag(3)
 colnames(new_df) <- colnames(external)
 
-pred <- GraphR_pred(new_df, res)
+system.time(pred <- GraphR_pred(new_df, res))
 head(pred)
 ```
 

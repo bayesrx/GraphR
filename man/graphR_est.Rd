@@ -50,3 +50,28 @@ variance of error
 Estimate coefficients and inclusion probabilities of external
 covariates in GraphR models
 }
+\examples{
+set.seed(100)
+data("pam50")
+
+features <- apply(pam50$features,2,scale) \%>\% as.matrix()
+dim(features)
+features[c(1:5),c(1:5)]
+
+external <- pam50$external \%>\% as.matrix()
+dim(external)
+external[c(1:5),]
+
+
+system.time(res <- GraphR_est(
+  features,
+  external,
+  a_pi = 1,
+  b_pi = 4,
+  a_tau = 0.005,
+  b_tau = 0.005,
+  max_iter = 2000,
+  max_tol = 0.001
+))
+
+}

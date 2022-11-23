@@ -33,7 +33,7 @@ external covariates on regression of \eqn{j^{th}} node on \eqn{i^{th}} node}
 variance of error}
 }
 \value{
-1. feature_id1, feature_id2: Iindices of nodes
+1. feature_id1, feature_id2: Indices of nodes
 
 2. Pr_inclusion: Posterior inclusion probability of connections between two nodes
 based on "And" rules.
@@ -46,4 +46,38 @@ based on "And" rules.
 Predict partial correlation between two nodes and the
 corresponding inclusion probabilities from the results of GraphR model.
 Bayesian FDR-adjusted p-values are given.
+}
+\examples{
+set.seed(100)
+data("pam50")
+
+features <- apply(pam50$features,2,scale) \%>\% as.matrix()
+features[c(1:5),c(1:5)]
+
+external <- pam50$external \%>\% as.matrix()
+external[c(1:5),]
+
+
+system.time(res <- GraphR_est(
+  features,
+  external,
+  a_pi = 1,
+  b_pi = 4,
+  a_tau = 0.005,
+  b_tau = 0.005,
+  max_iter = 2000,
+  max_tol = 0.001
+))
+
+####### prediction
+new_df <- diag(3)
+colnames(new_df) <- colnames(external)
+
+pred <- GraphR_pred(new_df, res)
+head(pred)
+
+
+
+
+
 }
