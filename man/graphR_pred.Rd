@@ -14,38 +14,38 @@ GraphR_pred(
 }
 \arguments{
 \item{new_df}{A matrix of new external covarites based on which predicitons
-are made
+are made.
 
 Note: Please standardize continuous external covariates before plug into the
-estimation function}
+estimation function.}
 
-\item{graphR_est_res}{Results of `graphR_est`}
+\item{graphR_est_res}{Results from `GraphR_est` function.}
 
-\item{beta:}{A \eqn{p \times p \times q} array storing coefficients of external
-covariates. The \eqn{[i,j,k]} elements represents the effect of \eqn{k^{th}}
-external covariates on regression of \eqn{j^{th}} node on \eqn{i^{th}} node}
+\item{beta}{A p \eqn{x} p \eqn{x} q array storing coefficients of external
+covariates. The \eqn{[i,j,k]} elements represents the effect of k-th
+external covariates on regression of j-th node on i-th node.}
 
-\item{pip}{\eqn{p \times p \times q} array storing posterior inclusion probability (PIP)
-of external covariates. The \eqn{[i,j,k]} elements represents the PIP of \eqn{k^{th}}
-external covariates on regression of \eqn{j^{th}} node on \eqn{i^{th}} node}
+\item{omega_diag}{A p vector with i-th element representing the inverse
+variance of error.}
 
-\item{omega_diag:}{A p vector with \eqn{i^{th}} element representing the inverse
-variance of error}
+\item{pip}{A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
+external covariates on regression of j-th node on i-th node.}
 }
 \value{
-1. feature_id1, feature_id2: Indices of nodes
+\item{feature_id1, feature_id2}{Indices of nodes.}
 
-2. Pr_inclusion: Posterior inclusion probability of connections between two nodes
-based on "And" rules.
+\item{Pr_inclusion}{Posterior inclusion probability of connections between two nodes
+based on "And" rules.}
 
-3. Correlation: Partial correlation between two nodes. Values with maximum magnitudes are provided
+\item{Correlation}{Partial correlation between two nodes. Values with maximum magnitudes are provided.}
 
-4. FDR_p: Bayesian FDR-adjusted p values
+\item{FDR_p}{Bayesian FDR-adjusted p values.}
 }
 \description{
-Predict partial correlation between two nodes and the
-corresponding inclusion probabilities from the results of GraphR model.
-Bayesian FDR-adjusted p-values are given.
+Prediction of partial correlation between two nodes and the
+corresponding inclusion probabilities from the results of GraphR model alongwith
+Bayesian FDR-adjusted p-values.
 }
 \examples{
 set.seed(100)

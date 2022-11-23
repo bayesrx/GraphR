@@ -1,6 +1,6 @@
 #' The 'GraphR' package.
 #'
-#' @description Graphical Regression (GraphR) is a flexible approach to infer structure
+#' @description Graphical Regression (GraphR) is a flexible approach to infer heterogeneous structure
 #' of Gaussian graphical models (GGM) which allows for covariate-dependent graphs by
 #' incorporating metrics of sample heterogeneity. Our regression-based method
 #' provides a functional mapping from the covariate space to precision matrix

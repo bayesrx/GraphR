@@ -16,39 +16,36 @@ GraphR_est(
 )
 }
 \arguments{
-\item{features}{Known as nodes in graphs among which connections are built.
-A \eqn{n \times p} matrix.
+\item{features}{Nodes of the graphs among which edges are built (e.g. a gene expression matrix of dimensions n \eqn{x} p).
 
-Note: Please standardize each features before plug into the estimation function}
+Note: Please standardize each features before plugging into the estimation function.}
 
-\item{external}{External covariates. A \eqn{n \times q} matrix.
+\item{external}{External covariates (n \eqn{x} q matrix).
 
 Note: Please standardize continuous external covariates before plug into the
-estimation function}
+estimation function.}
 
-\item{a_pi, b_pi}{\eqn{\pi \sim} Beta (\eqn{a_\pi,b_\pi})}
+\item{a_pi, b_pi}{\eqn{\pi} ~ Beta(\eqn{a_\pi, b_\pi})}
 
-\item{a_tau, b_tau}{\eqn{\tau \sim} Gamma (\eqn{a_\tau,b_\tau})}
+\item{a_tau, b_tau}{\eqn{\tau} ~ Gamma(\eqn{a_\tau, b_\tau})}
 
 \item{max_iter}{maximum iterations}
 
 \item{max_tol}{maximum tolerance}
 }
 \value{
-1. beta: A \eqn{p \times p \times q} array storing coefficients of external
-covariates. The \eqn{[i,j,k]} elements represents the effect of \eqn{k^{th}}
-external covariates on regression of \eqn{j^{th}} node on \eqn{i^{th}} node
-
-2. phi: A \eqn{p \times p \times q} array storing posterior inclusion probability (PIP)
-of external covariates. The \eqn{[i,j,k]} elements represents the PIP of \eqn{k^{th}}
-external covariates on regression of \eqn{j^{th}} node on \eqn{i^{th}} node
-
-3. omega_diag: A p vector with \eqn{i^{th}} element representing the inverse
-variance of error
+\item{beta}{A p \eqn{x} p \eqn{x} q array of coefficients for external
+covariates. The \eqn{[i,j,k]} element represents the effect of k-th
+external covariates on regression of j-th node on i-th node.}
+\item{phi}{A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
+external covariates on regression of j-th node on i-th node.}
+\item{omega_diag}{A p vector with i-th element representing the inverse
+variance of error.}
 }
 \description{
-Estimate coefficients and inclusion probabilities of external
-covariates in GraphR models
+Estimate the graphical regression coefficients and inclusion probabilities of external
+covariates for the GraphR models.
 }
 \examples{
 set.seed(100)

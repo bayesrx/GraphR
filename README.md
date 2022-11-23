@@ -11,29 +11,21 @@ The GraphR (Graphical Regression) is a flexible approach which
 incorporates sample heterogenity and enables covariate-dependent graphs.
 Our regression-based method provides a functional mapping from the
 covariate space to precision matrix for different types of heterogeneous
-graphical model settings. GraphR is flexible in incorporating different
-scales of covariates; imposes sparsity in both edge and covariate
-selection and computationally efficient via use of variational Bayes
-algorithms. GraphR is implemented as an open-source R package.
+graphical model settings. GraphR imposes sparsity in both edge and
+covariate selection and computationally efficient via use of variational
+Bayes algorithms. The method is versatile to incorporate different type
+of covariates such as (I) binary (II) categorical (III) univariate
+continuous (IV) categorical + univariate continuous (V) multivariate
+continuous. GraphR is implemented as an open-source R package.
 
 ## Installation
-
-The package requires a dependency that is not available on CRAN. Install
-it with:
-
-``` r
-#remotes::install_github("ABC")
-```
 
 You can install the released version of GraphR from
 (<https://github.com/bayesrx/GraphR>) with:
 
 ``` r
-#devtools::install_github("bayesrx/GraphR")
-```
-
-``` r
-#library(GraphR)
+devtools::install_github("bayesrx/GraphR")
+library(GraphR)
 ```
 
 ## Example
@@ -41,28 +33,28 @@ You can install the released version of GraphR from
 An example code with one of the existing datasets to demonstrate how to
 run the functions and obtain inference.
 
-The estimation can be done by using “GraphR_est” function. The inputs of
-estimation of function include features (nodes) and external covariates
-which are $n \times p$ and $n \times q$ matrix respectively. Please note
-that our function doesn’t provide standardization of features and
-external covariates, and thus please standardize features and external
-covariates before plugging into the function. Moreover the accuracy of
-estimation will decrease with small $n/pq$ ratio, and it is suggested to
-maintain $n/pq >1$. For priors, we assume $\pi \sim Beta(a_\pi, b_\pi)$
-and $\tau \sim \Gamma(a_\tau, b_\tau)$. “GraphR_est” function returns a
-list containing the coefficient (Beta) and posterior inclusion
-probability (PIP) of external covaraites, and diagonal elements of
-precision matrix.
+The “GraphR\_est” can be used for estimation. The inputs of estimation
+of function include features (nodes) and external covariates which are
+$n \times p$ and $n \times q$ matrix respectively. Please note that our
+function doesn’t provide standardization of features and external
+covariates, and thus **please standardize features and external
+covariates before plugging into the function**. It is suggested to
+maintain $n/pq >1$ and efficacy of the method increase with high values
+of $n/pq$ ratio. For priors, we assume $\pi \sim Beta(a_\pi, b_\pi)$ and
+$\tau \sim \Gamma(a_\tau, b_\tau)$. “GraphR\_est” function returns a
+list containing <br> (1) the coefficient (Beta), <br> (2) posterior
+inclusion probability (PIP) of external covaraites and <br> (3) diagonal
+elements of precision matrix.
 
-We also provide prediction function: “GraphR_pred”, requiring a new
+We also provide prediction function: “GraphR\_pred”, requiring a new
 matrix based on which prediction are made, and the output of
-“GraphR_est” function. Optionally, one can also enter the the
+“GraphR\_est” function. Optionally, one can also enter the the
 coefficient (Beta) and posterior inclusion probability (PIP) of external
 covaraites, and diagonal elements of precision matrix obtained from
-other functions as the input. The output contains information as
-following: (i) Corresponding external covariates values; (ii) Indices of
-features; (iii) Partial correlations between two features and PIPs of
-edges; (iv) Bayesian FDR-adjusted p-values.
+other functions as the input. The output contains following information:
+<br> (1) Corresponding external covariates values, <br> (2) Indices of
+features, <br> (3) Partial correlations between two features and PIPs of
+edges and, <br> (4) Bayesian FDR-adjusted p-values.
 
 ``` r
 set.seed(100)
@@ -108,7 +100,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>  237.13   75.00  317.72
+#> 230.451   9.040 241.597
 
 ####### prediction
 new_df <- diag(3)
@@ -116,7 +108,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>    1.31    0.03    1.34
+#>   1.523   0.061   1.597
 head(pred)
 #>   basal_like her2_enriched luminal_ab feature_id1 feature_id2 Pr_inclusion
 #> 1          1             0          0          10           9            1
@@ -134,9 +126,13 @@ head(pred)
 #> 6   0.7698744     0
 ```
 
-## Shiny App and tutorial website
+## Shiny App
 
-(link to the Shiny App and tutorial website)
+(link to the Shiny App tab only)
+
+## Tutorial website
+
+(link to the tutorial website)
 
 ## Paper
 

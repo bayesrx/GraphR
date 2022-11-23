@@ -9,7 +9,7 @@
 #' combined in one category to achieve higher power. That leads to three groups
 #' with 626 BRCA patients in Luminal A and B, 75 patients in Her2-enriched and
 #' 158 in Basal-like.
-"pam50"
+"Pam50"
 
 #' Proteomics data with Stemness Indices and Age in Breast Cancer
 #'
@@ -20,7 +20,7 @@
 #' The mDNAsi and mRNAsi provide the degrees of dedifferentiation on epigenetic and
 #' gene expression level respectively, which range from 0 to 1 with lower values
 #' implying tendency to normal-like cells.
-"si"
+"Si"
 
 #' Proteomics data sets for Gynecological and Breast Cancers
 #'
@@ -30,16 +30,16 @@
 #' and uterine corpus endometrial carcinoma (UCEC). Abundance of 189 kinds of
 #' protein were measured across 1,941 patients among which 892 patients had BRCA,
 #' 173 had CESC, 436 had OV and 440 had UCEC.
-"pan_gynae"
+"Pan_gynae"
 
 #' Spatial transcriptomics data set for breast cancer
 #'
 #' This data set was collected from biopsy of breast cancer at
-#' a thickness of 16 $\mu$m whose locations can be classified into
+#' a thickness of 16 \eqn{\mu}m whose locations can be classified into
 #' three spatial regions as tumor, intermediate, and normal based on the
-#' Hematoxylin and Eosin (H\&E) staining image. The size of three regions are
+#' Hematoxylin and Eosin (H&E) staining image. The size of three regions are
 #' 114, 67, and 69 respectively. The data includes measurement of 100 spatially expressed
 #' genes with the lowest Benjamini-Hochberg (BH) adjusted p-value by applying SPARK method
 #' at 250 spot locations.
-"spatial"
+"Spatial_transcriptomics"
 

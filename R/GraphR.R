@@ -86,31 +86,28 @@ pred_ind <- function(external_ind,
 
 ##### estimation function
 #' @title GraphR Model Estimation
-#' @description Estimate coefficients and inclusion probabilities of external
-#' covariates in GraphR models
-#' @param features Known as nodes in graphs among which connections are built.
-#' A \eqn{n \times p} matrix.
+#' @description Estimate the graphical regression coefficients and inclusion probabilities of external
+#' covariates for the GraphR models.
+#' @param features Nodes of the graphs among which edges are built (e.g. a gene expression matrix of dimensions n \eqn{x} p).
 #'
-#' Note: Please standardize each features before plug into the estimation function
-#' @param external External covariates. A \eqn{n \times q} matrix.
+#' Note: Please standardize each features before plugging into the estimation function.
+#' @param external External covariates (n \eqn{x} q matrix).
 #'
 #' Note: Please standardize continuous external covariates before plug into the
-#' estimation function
-#' @param a_pi,b_pi \eqn{\pi \sim} Beta (\eqn{a_\pi,b_\pi})
-#' @param a_tau,b_tau \eqn{\tau \sim} Gamma (\eqn{a_\tau,b_\tau})
+#' estimation function.
+#' @param a_pi,b_pi \eqn{\pi} ~ Beta(\eqn{a_\pi, b_\pi})
+#' @param a_tau,b_tau \eqn{\tau} ~ Gamma(\eqn{a_\tau, b_\tau})
 #' @param max_iter maximum iterations
 #' @param max_tol maximum tolerance
 #' @return
-#' 1. beta: A \eqn{p \times p \times q} array storing coefficients of external
-#' covariates. The \eqn{[i,j,k]} elements represents the effect of \eqn{k^{th}}
-#' external covariates on regression of \eqn{j^{th}} node on \eqn{i^{th}} node
-#'
-#' 2. phi: A \eqn{p \times p \times q} array storing posterior inclusion probability (PIP)
-#' of external covariates. The \eqn{[i,j,k]} elements represents the PIP of \eqn{k^{th}}
-#' external covariates on regression of \eqn{j^{th}} node on \eqn{i^{th}} node
-#'
-#' 3. omega_diag: A p vector with \eqn{i^{th}} element representing the inverse
-#' variance of error
+#' \item{beta}{A p \eqn{x} p \eqn{x} q array of coefficients for external
+#' covariates. The \eqn{[i,j,k]} element represents the effect of k-th
+#' external covariates on regression of j-th node on i-th node.}
+#' \item{phi}{A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+#' of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
+#' external covariates on regression of j-th node on i-th node.}
+#' \item{omega_diag}{A p vector with i-th element representing the inverse
+#' variance of error.}
 #' @examples
 #' set.seed(100)
 #' data("pam50")
@@ -196,33 +193,33 @@ GraphR_est <- function(features, external, # input
 
 ##### prediction function
 #' @title GraphR Model Predictions
-#' @description Predict partial correlation between two nodes and the
-#' corresponding inclusion probabilities from the results of GraphR model.
-#' Bayesian FDR-adjusted p-values are given.
+#' @description Prediction of partial correlation between two nodes and the
+#' corresponding inclusion probabilities from the results of GraphR model alongwith
+#' Bayesian FDR-adjusted p-values.
 #' @param new_df A matrix of new external covarites based on which predicitons
-#' are made
+#' are made.
 #'
 #' Note: Please standardize continuous external covariates before plug into the
-#' estimation function
+#' estimation function.
 #'
-#' @param graphR_est_res Results of `graphR_est`
-#' @param beta: A \eqn{p \times p \times q} array storing coefficients of external
-#' covariates. The \eqn{[i,j,k]} elements represents the effect of \eqn{k^{th}}
-#' external covariates on regression of \eqn{j^{th}} node on \eqn{i^{th}} node
-#' @param pip \eqn{p \times p \times q} array storing posterior inclusion probability (PIP)
-#' of external covariates. The \eqn{[i,j,k]} elements represents the PIP of \eqn{k^{th}}
-#' external covariates on regression of \eqn{j^{th}} node on \eqn{i^{th}} node
-#' @param omega_diag: A p vector with \eqn{i^{th}} element representing the inverse
-#' variance of error
+#' @param graphR_est_res Results from `GraphR_est` function.
+#' @param beta A p \eqn{x} p \eqn{x} q array storing coefficients of external
+#' covariates. The \eqn{[i,j,k]} elements represents the effect of k-th
+#' external covariates on regression of j-th node on i-th node.
+#' @param pip A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+#' of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
+#' external covariates on regression of j-th node on i-th node.
+#' @param omega_diag A p vector with i-th element representing the inverse
+#' variance of error.
 #' @return
-#' 1. feature_id1, feature_id2: Indices of nodes
+#' \item{feature_id1, feature_id2}{Indices of nodes.}
 #'
-#' 2. Pr_inclusion: Posterior inclusion probability of connections between two nodes
-#' based on "And" rules.
+#' \item{Pr_inclusion}{Posterior inclusion probability of connections between two nodes
+#' based on "And" rules.}
 #'
-#' 3. Correlation: Partial correlation between two nodes. Values with maximum magnitudes are provided
+#' \item{Correlation}{Partial correlation between two nodes. Values with maximum magnitudes are provided.}
 #'
-#' 4. FDR_p: Bayesian FDR-adjusted p values
+#' \item{FDR_p}{Bayesian FDR-adjusted p values.}
 #' @examples
 #' set.seed(100)
 #' data("pam50")
