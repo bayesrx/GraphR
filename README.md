@@ -4,7 +4,7 @@
 # GraphR overview
 
 <center>
-<img src="GraphR_Method_plot_final.png" width="500" height="500" >
+<img src="GraphR_Method_plot_final.png" width="600" height="600" >
 </center>
 
 The GraphR (Graphical Regression) is a flexible approach which
@@ -14,9 +14,14 @@ covariate space to precision matrix for different types of heterogeneous
 graphical model settings. GraphR imposes sparsity in both edge and
 covariate selection and computationally efficient via use of variational
 Bayes algorithms. The method is versatile to incorporate different type
-of covariates such as (I) binary (II) categorical (III) univariate
-continuous (IV) categorical + univariate continuous (V) multivariate
-continuous. GraphR is implemented as an open-source R package.
+of covariates such as <br> (I) **binary** (control and disease specific
+graphs), <br> (II) **categorical** (category specific graphs such as
+cancer subtypes), <br> (III) **univariate continuous** (time varying
+graphs for single cell data), <br> (IV) **categorical + univariate
+continuous** (graphs changing over category such as cancer sub-types and
+continuous scale as biomarkers), <br> (V) **multivariate continuous**
+(spatial transcriptomics co-expression networks). <br> GraphR is
+implemented as an open-source R package.
 
 ## Installation
 
@@ -33,7 +38,7 @@ library(GraphR)
 An example code with one of the existing datasets to demonstrate how to
 run the functions and obtain inference.
 
-The “GraphR\_est” can be used for estimation. The inputs of estimation
+The **GraphR\_est** can be used for estimation. The inputs of estimation
 of function include features (nodes) and external covariates which are
 $n \times p$ and $n \times q$ matrix respectively. Please note that our
 function doesn’t provide standardization of features and external
@@ -41,14 +46,14 @@ covariates, and thus **please standardize features and external
 covariates before plugging into the function**. It is suggested to
 maintain $n/pq >1$ and efficacy of the method increase with high values
 of $n/pq$ ratio. For priors, we assume $\pi \sim Beta(a_\pi, b_\pi)$ and
-$\tau \sim \Gamma(a_\tau, b_\tau)$. “GraphR\_est” function returns a
+$\tau \sim \Gamma(a_\tau, b_\tau)$. **GraphR\_est** function returns a
 list containing <br> (1) the coefficient (Beta), <br> (2) posterior
 inclusion probability (PIP) of external covaraites and <br> (3) diagonal
 elements of precision matrix.
 
-We also provide prediction function: “GraphR\_pred”, requiring a new
-matrix based on which prediction are made, and the output of
-“GraphR\_est” function. Optionally, one can also enter the the
+We also provide prediction function **GraphR\_pred** which requires a
+new matrix based on which prediction are made and the output of
+**GraphR\_est** function. Optionally, one can also enter the the
 coefficient (Beta) and posterior inclusion probability (PIP) of external
 covaraites, and diagonal elements of precision matrix obtained from
 other functions as the input. The output contains following information:
@@ -68,9 +73,9 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-data("pam50")
+data("Pam50")
 
-features <- apply(pam50$features,2,scale) %>% as.matrix()
+features <- apply(Pam50$features,2,scale) %>% as.matrix()
 features[c(1:5),c(1:5)]
 #>      X1433EPSILON     X4EBP1 X4EBP1_pS65 X4EBP1_pT37T46    X53BP1
 #> [1,]   -0.9298711 -1.0325344  -0.1814837      0.3870419 -1.125110
@@ -79,7 +84,7 @@ features[c(1:5),c(1:5)]
 #> [4,]   -0.6566337 -0.2473042   0.2114522      0.9897723  2.134105
 #> [5,]   -0.9476849  1.7654120   2.7128204      2.1739453  1.378139
 
-external <- pam50$external %>% as.matrix()
+external <- Pam50$external %>% as.matrix()
 external[c(1:5),]
 #>      basal_like her2_enriched luminal_ab
 #> [1,]          0             1          0
@@ -100,7 +105,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#> 230.451   9.040 241.597
+#> 233.934   9.091 245.203
 
 ####### prediction
 new_df <- diag(3)
@@ -108,7 +113,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>   1.523   0.061   1.597
+#>   1.568   0.058   1.639
 head(pred)
 #>   basal_like her2_enriched luminal_ab feature_id1 feature_id2 Pr_inclusion
 #> 1          1             0          0          10           9            1
@@ -136,8 +141,7 @@ head(pred)
 
 ## Paper
 
-(Link to the biorxiv version of the paper if we decide to put the paper
-on biorxiv)
+(Link to the paper)
 
 ## Supplementary file
 
