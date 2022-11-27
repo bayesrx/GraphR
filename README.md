@@ -21,7 +21,7 @@ graphs for single cell data), <br> (IV) **categorical + univariate
 continuous** (graphs changing over category such as cancer sub-types and
 continuous scale as biomarkers), <br> (V) **multivariate continuous**
 (spatial transcriptomics co-expression networks). <br> GraphR is
-implemented as an open-source R package.
+implemented as an open-source R package and Shiny app.
 
 ## Installation
 
@@ -33,33 +33,98 @@ devtools::install_github("bayesrx/GraphR")
 library(GraphR)
 ```
 
+## Functions
+
+### GraphR\_est() function
+
+The **GraphR\_est()** function can be used to estimate the graphical
+regression coefficients and inclusion probabilities of external
+covariates for the GraphR models. It is suggested to maintain $n/pq >1$
+and efficacy of the method increase with high values of $n/pq$ ratio.
+For priors, we assume $\pi \sim Beta(a_\pi, b_\pi)$ and
+$\tau \sim \Gamma(a_\tau, b_\tau)$.
+
+The **inputs** of estimation function are given below.
+
+-   **Features (nodes)**: Nodes of the graphs among which edges are
+    built (e.g. a gene expression matrix of dimensions $n \times p$).
+    **Please standardize features and external covariates before
+    plugging into the function**.
+
+-   **External (external covariates)**: A $n \times q$ matrix of
+    external covariates. **Please standardize continuous external
+    covariates before plug into the estimation function.**
+
+-   **$\boldsymbol a_{\boldsymbol \pi}$,
+    $\boldsymbol b_{\boldsymbol \pi}$**: Hyper-parameters from $\pi$
+    $\sim$ Beta$(a_\pi, b_\pi)$.
+
+-   **$\boldsymbol a_{\boldsymbol \tau}$,
+    $\boldsymbol b_{\boldsymbol \tau}$**: Hyper-parameters from $\tau$
+    $\sim$ Gamma($a_{\tau}$, $b_{\tau}$).
+
+-   **Max\_iter**: Maximum number of iterations.
+
+-   **Max\_tol**: Maximum tolerance.
+
+**Outputs** of the **GraphR\_est()** function are provided below.
+
+-   **Beta (the graphical regression coefficients)**: A
+    $p \times p \times q$ array of coefficients for external covariates.
+    The $[i,j,k]$ element represents the effect of k-th external
+    covariates on regression of j-th node on i-th node.
+
+-   **Phi (posterior inclusion probability)**: A $p \times p \times q$
+    array storing posterior inclusion probability (PIP) of external
+    covariates. The elements represents the PIP of k-th external
+    covariates on regression of j-th node on i-th node.
+
+-   **Omega\_diag (diagonal elements of precision matrix)**: A p vector
+    with i-th element representing the inverse variance of error.
+
+### GraphR\_pred() function
+
+The **GraphR\_pred()** function can be used to predict partial
+correlation between two nodes and the corresponding inclusion
+probabilities from the results of GraphR model alongwith Bayesian
+FDR-adjusted p-values.
+
+The **inputs** of estimation function are given below.
+
+-   **New\_df**: A matrix of new external covarites based on which
+    predicitons are made. **Note: Please standardize continuous external
+    covariates before plug into the estimation function.**
+
+-   **GraphR\_est\_res**: Results from `GraphR_est` function.
+
+-   **Beta**: A $p \times p \times q$ array storing coefficients of
+    external covariates. The $[i,j,k]$ elements represents the effect of
+    k-th external covariates on regression of j-th node on i-th node.
+
+-   **Omega\_diag**: A p vector with i-th element representing the
+    inverse variance of error.
+
+-   **Pip**: A $p \times p \times q$ array storing posterior inclusion
+    probability (PIP) of external covariates. The $[i,j,k]$ elements
+    represents the PIP of k-thcexternal covariates on regression of j-th
+    node on i-th node.
+
+The **output** contains following information.
+
+-   **Feature\_id1**, **feature\_id2**: Indices of features or nodes.
+
+-   **Pr\_inclusion**: Posterior inclusion probability of connections
+    between two nodes based on “And” rules.
+
+-   **Correlation**: Partial correlation between two nodes. Values with
+    maximum magnitudes are provided.
+
+-   **FDR\_p**: Bayesian FDR-adjusted p values.
+
 ## Example
 
 An example code with one of the existing datasets to demonstrate how to
 run the functions and obtain inference.
-
-The **GraphR\_est** can be used for estimation. The inputs of estimation
-of function include features (nodes) and external covariates which are
-$n \times p$ and $n \times q$ matrix respectively. Please note that our
-function doesn’t provide standardization of features and external
-covariates, and thus **please standardize features and external
-covariates before plugging into the function**. It is suggested to
-maintain $n/pq >1$ and efficacy of the method increase with high values
-of $n/pq$ ratio. For priors, we assume $\pi \sim Beta(a_\pi, b_\pi)$ and
-$\tau \sim \Gamma(a_\tau, b_\tau)$. **GraphR\_est** function returns a
-list containing <br> (1) the coefficient (Beta), <br> (2) posterior
-inclusion probability (PIP) of external covaraites and <br> (3) diagonal
-elements of precision matrix.
-
-We also provide prediction function **GraphR\_pred** which requires a
-new matrix based on which prediction are made and the output of
-**GraphR\_est** function. Optionally, one can also enter the the
-coefficient (Beta) and posterior inclusion probability (PIP) of external
-covaraites, and diagonal elements of precision matrix obtained from
-other functions as the input. The output contains following information:
-<br> (1) Corresponding external covariates values, <br> (2) Indices of
-features, <br> (3) Partial correlations between two features and PIPs of
-edges and, <br> (4) Bayesian FDR-adjusted p-values.
 
 ``` r
 set.seed(100)
@@ -105,7 +170,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#> 233.934   9.091 245.203
+#> 227.739   8.784 238.248
 
 ####### prediction
 new_df <- diag(3)
@@ -113,7 +178,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>   1.568   0.058   1.639
+#>   1.547   0.058   1.617
 head(pred)
 #>   basal_like her2_enriched luminal_ab feature_id1 feature_id2 Pr_inclusion
 #> 1          1             0          0          10           9            1
