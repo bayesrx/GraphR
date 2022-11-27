@@ -48,7 +48,7 @@ The **inputs** of estimation function are given below.
 
 + **External (external covariates)**: A $n \times q$ matrix of external covariates. **Please standardize continuous external covariates before plug into the estimation function.**
 
-+ **$\boldsymbol a_{\boldsymbol \pi}$, $\boldsymbol b_{\boldsymbol \pi}$**: Hyper-parameters from $\pi$ $\sim$ Beta$(a_\pi, b_\pi)$.
++ **$\boldsymbol a_{\boldsymbol \pi}$, $\boldsymbol b_{\boldsymbol \pi}$**: Hyper-parameters from $\pi$ $\sim$ Beta($a_\pi$, $b_\pi$).
 
 + **$\boldsymbol a_{\boldsymbol \tau}$, $\boldsymbol b_{\boldsymbol \tau}$**: Hyper-parameters from $\tau$ $\sim$ Gamma($a_{\tau}$, $b_{\tau}$).
 
