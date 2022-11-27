@@ -9,7 +9,7 @@
 #' combined in one category to achieve higher power. That leads to three groups
 #' with 626 BRCA patients in Luminal A and B, 75 patients in Her2-enriched and
 #' 158 in Basal-like.
-"Pam50"
+"pam50"
 
 #' Proteomics data with Stemness Indices and Age in Breast Cancer
 #'
@@ -20,7 +20,7 @@
 #' The mDNAsi and mRNAsi provide the degrees of dedifferentiation on epigenetic and
 #' gene expression level respectively, which range from 0 to 1 with lower values
 #' implying tendency to normal-like cells.
-"Si"
+"si"
 
 #' Proteomics data sets for Gynecological and Breast Cancers
 #'
@@ -30,7 +30,7 @@
 #' and uterine corpus endometrial carcinoma (UCEC). Abundance of 189 kinds of
 #' protein were measured across 1,941 patients among which 892 patients had BRCA,
 #' 173 had CESC, 436 had OV and 440 had UCEC.
-"Pan_gynae"
+"pan_gynae"
 
 #' Spatial transcriptomics data set for breast cancer
 #'

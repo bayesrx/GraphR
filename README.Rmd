@@ -101,7 +101,7 @@ An example code with one of the existing datasets to demonstrate how to run the 
 set.seed(100)
 library(GraphR)
 library(dplyr)
-data("Pam50")
+data("pam50")
 
 features <- apply(Pam50$features,2,scale) %>% as.matrix()
 features[c(1:5),c(1:5)]

@@ -138,7 +138,7 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-data("Pam50")
+data("pam50")
 
 features <- apply(Pam50$features,2,scale) %>% as.matrix()
 features[c(1:5),c(1:5)]
@@ -170,7 +170,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#> 227.739   8.784 238.248
+#> 229.694   8.712 240.424
 
 ####### prediction
 new_df <- diag(3)
@@ -178,7 +178,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>   1.547   0.058   1.617
+#>   1.565   0.064   1.646
 head(pred)
 #>   basal_like her2_enriched luminal_ab feature_id1 feature_id2 Pr_inclusion
 #> 1          1             0          0          10           9            1
