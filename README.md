@@ -56,12 +56,12 @@ The **inputs** of estimation function are given below.
     covariates before plug into the estimation function.**
 
 -   **$\boldsymbol a_{\boldsymbol \pi}$,
-    $\boldsymbol b_{\boldsymbol \pi}$**: Hyper-parameters from $\pi$
-    $\sim$ Beta($a_\pi$, $b_\pi$).
+    $\boldsymbol b_{\boldsymbol \pi}$**: Hyper-parameters from
+    $\pi \sim Beta(a_\pi, b_\pi)$.
 
 -   **$\boldsymbol a_{\boldsymbol \tau}$,
-    $\boldsymbol b_{\boldsymbol \tau}$**: Hyper-parameters from $\tau$
-    $\sim$ Gamma($a_{\tau}$, $b_{\tau}$).
+    $\boldsymbol b_{\boldsymbol \tau}$**: Hyper-parameters from
+    $\tau \sim Gamma(a_\tau, b_\tau)$.
 
 -   **Max\_iter**: Maximum number of iterations.
 
@@ -138,7 +138,7 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
-data("pam50")
+data("Pam50")
 
 features <- apply(Pam50$features,2,scale) %>% as.matrix()
 features[c(1:5),c(1:5)]
@@ -170,7 +170,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#> 237.116  10.693 276.441
+#> 229.044   8.635 239.826
 
 ####### prediction
 new_df <- diag(3)
@@ -178,7 +178,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>   1.648   0.075   1.939
+#>   1.519   0.057   1.586
 head(pred)
 #>   basal_like her2_enriched luminal_ab feature_id1 feature_id2 Pr_inclusion
 #> 1          1             0          0          10           9            1
