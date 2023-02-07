@@ -6,38 +6,40 @@
 \usage{
 GraphR_est(
   features,
-  external,
+  cont_external = NULL,
+  dis_external = NULL,
   a_pi = 1,
   b_pi = 4,
   a_tau = 0.005,
   b_tau = 0.005,
+  standardize_feature = FALSE,
+  standardize_external = FALSE,
   max_iter = 2000,
   max_tol = 0.001
 )
 }
 \arguments{
-\item{features}{Nodes of the graphs among which edges are built (e.g. a gene expression matrix of dimensions n \eqn{x} p).
+\item{features}{Compulsory. Nodes of the graphs among which edges are built (e.g. a gene expression matrix of dimensions n \eqn{\times} p).}
 
-Note: Please standardize each features before plugging into the estimation function.}
+\item{cont_external, dis_external}{Compulsory. Continuous and discrete external covariates (n \eqn{\times} \eqn{\text{q}_1} and n \eqn{\times} \eqn{\text{q}_2} matrix, with \eqn{\text{q}_1} + \eqn{\text{q}_2} = q).}
 
-\item{external}{External covariates (n \eqn{x} q matrix).
+\item{a_pi, b_pi}{Optional. \eqn{\pi} ~ Beta(\eqn{a_\pi, b_\pi}). By default \eqn{a_\pi} = 1, \eqn{b_\pi} = 4.}
 
-Note: Please standardize continuous external covariates before plug into the
-estimation function.}
+\item{a_tau, b_tau}{Optional. \eqn{\tau} ~ Gamma(\eqn{a_\tau, b_\tau}). By default \eqn{a_\tau} = 0.005, \eqn{b_\tau} = 0.005.}
 
-\item{a_pi, b_pi}{\eqn{\pi} ~ Beta(\eqn{a_\pi, b_\pi})}
+\item{standardize_feature}{Optional. Standardize features. Default as FALSE}
 
-\item{a_tau, b_tau}{\eqn{\tau} ~ Gamma(\eqn{a_\tau, b_\tau})}
+\item{standardize_external}{Optional. Standardize continuous external covariates. Default as FALSE}
 
-\item{max_iter}{maximum iterations}
+\item{max_iter}{Optional. Maximum iterations. Default as 2,000.}
 
-\item{max_tol}{maximum tolerance}
+\item{max_tol}{Optional. Maximum tolerance. Default as 0.01.}
 }
 \value{
-\item{beta}{A p \eqn{x} p \eqn{x} q array of coefficients for external
+\item{beta}{A p \eqn{\times} p \eqn{\times} q array of coefficients for external
 covariates. The \eqn{[i,j,k]} element represents the effect of k-th
 external covariates on regression of j-th node on i-th node.}
-\item{phi}{A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+\item{phi}{A p \eqn{\times} p \eqn{\times} q array storing posterior inclusion probability (PIP)
 of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
 external covariates on regression of j-th node on i-th node.}
 \item{omega_diag}{A p vector with i-th element representing the inverse
@@ -49,24 +51,26 @@ covariates for the GraphR models.
 }
 \examples{
 set.seed(100)
-data("pam50")
+data("Pam50")
 
-features <- apply(pam50$features,2,scale) \%>\% as.matrix()
+features <- apply(Pam50$features,2,scale) \%>\% as.matrix()
 dim(features)
 features[c(1:5),c(1:5)]
 
-external <- pam50$external \%>\% as.matrix()
+external <- Pam50$external \%>\% as.matrix()
 dim(external)
 external[c(1:5),]
 
 
 system.time(res <- GraphR_est(
   features,
-  external,
+  dis_external = external,
   a_pi = 1,
   b_pi = 4,
   a_tau = 0.005,
   b_tau = 0.005,
+  standardize_feature = FALSE,
+  standardize_external =FALSE,
   max_iter = 2000,
   max_tol = 0.001
 ))

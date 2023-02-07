@@ -10,5 +10,5 @@ License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.7), RcppArmadillo, ghyp, dplyr, reshape2
 Depends: R
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Encoding: UTF-8

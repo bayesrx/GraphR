@@ -88,46 +88,45 @@ pred_ind <- function(external_ind,
 #' @title GraphR Model Estimation
 #' @description Estimate the graphical regression coefficients and inclusion probabilities of external
 #' covariates for the GraphR models.
-#' @param features Nodes of the graphs among which edges are built (e.g. a gene expression matrix of dimensions n \eqn{x} p).
-#'
-#' Note: Please standardize each features before plugging into the estimation function.
-#' @param external External covariates (n \eqn{x} q matrix).
-#'
-#' Note: Please standardize continuous external covariates before plug into the
-#' estimation function.
-#' @param a_pi,b_pi \eqn{\pi} ~ Beta(\eqn{a_\pi, b_\pi})
-#' @param a_tau,b_tau \eqn{\tau} ~ Gamma(\eqn{a_\tau, b_\tau})
-#' @param max_iter maximum iterations
-#' @param max_tol maximum tolerance
+#' @param features Compulsory. Nodes of the graphs among which edges are built (e.g. a gene expression matrix of dimensions n \eqn{\times} p).
+#' @param cont_external,dis_external Compulsory. Continuous and discrete external covariates (n \eqn{\times} \eqn{\text{q}_1} and n \eqn{\times} \eqn{\text{q}_2} matrix, with \eqn{\text{q}_1} + \eqn{\text{q}_2} = q).
+#' @param a_pi,b_pi Optional. \eqn{\pi} ~ Beta(\eqn{a_\pi, b_\pi}). By default \eqn{a_\pi} = 1, \eqn{b_\pi} = 4.
+#' @param a_tau,b_tau Optional. \eqn{\tau} ~ Gamma(\eqn{a_\tau, b_\tau}). By default \eqn{a_\tau} = 0.005, \eqn{b_\tau} = 0.005.
+#' @param standardize_feature Optional. Standardize features. Default as FALSE
+#' @param standardize_external Optional. Standardize continuous external covariates. Default as FALSE
+#' @param max_iter Optional. Maximum iterations. Default as 2,000.
+#' @param max_tol Optional. Maximum tolerance. Default as 0.01.
 #' @return
-#' \item{beta}{A p \eqn{x} p \eqn{x} q array of coefficients for external
+#' \item{beta}{A p \eqn{\times} p \eqn{\times} q array of coefficients for external
 #' covariates. The \eqn{[i,j,k]} element represents the effect of k-th
 #' external covariates on regression of j-th node on i-th node.}
-#' \item{phi}{A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+#' \item{phi}{A p \eqn{\times} p \eqn{\times} q array storing posterior inclusion probability (PIP)
 #' of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
 #' external covariates on regression of j-th node on i-th node.}
 #' \item{omega_diag}{A p vector with i-th element representing the inverse
 #' variance of error.}
 #' @examples
 #' set.seed(100)
-#' data("pam50")
+#' data("Pam50")
 #'
-#' features <- apply(pam50$features,2,scale) %>% as.matrix()
+#' features <- apply(Pam50$features,2,scale) %>% as.matrix()
 #' dim(features)
 #' features[c(1:5),c(1:5)]
 #'
-#' external <- pam50$external %>% as.matrix()
+#' external <- Pam50$external %>% as.matrix()
 #' dim(external)
 #' external[c(1:5),]
 #'
 #'
 #' system.time(res <- GraphR_est(
 #'   features,
-#'   external,
+#'   dis_external = external,
 #'   a_pi = 1,
 #'   b_pi = 4,
 #'   a_tau = 0.005,
 #'   b_tau = 0.005,
+#'   standardize_feature = FALSE,
+#'   standardize_external =FALSE,
 #'   max_iter = 2000,
 #'   max_tol = 0.001
 #' ))
@@ -135,14 +134,17 @@ pred_ind <- function(external_ind,
 
 
 
-GraphR_est <- function(features, external, # input
+GraphR_est <- function(features, cont_external = NULL, dis_external = NULL, # input
                    a_pi = 1, b_pi = 4,  #hyperparameter
                    a_tau = 0.005, b_tau = 0.005, #hyperparameter
+                   standardize_feature = FALSE, standardize_external =FALSE, #standardization , default as FALSE
                    max_iter =2000, max_tol= 0.001 #implementation
                    ){
   p <- ncol(features)
   n <- nrow(features)
-  q <- ncol(external)
+
+  ext_tmp <- cbind(cont_external, dis_external)
+  q <- ncol(ext_tmp)
 
   if (n <= p*q){
     warning("Low n/pq ratio may lead to inaccurate estimation")
@@ -154,6 +156,16 @@ GraphR_est <- function(features, external, # input
   tol_vec <- NULL
   # variance of b
   tau_vec <- matrix(0,nrow = p,ncol = q)
+
+  if (standardize_feature){
+    features <- apply(features,2,scale) %>% as.matrix()
+  }
+  if (standardize_external){
+    cont_external <- apply(cont_external,2,scale) %>% as.matrix()
+    external <- cbind(cont_external, dis_external)
+  } else{
+    external <- cbind(cont_external, dis_external) %>% as.matrix()
+  }
 
 
   for (i in 1:p) {
@@ -194,22 +206,22 @@ GraphR_est <- function(features, external, # input
 ##### prediction function
 #' @title GraphR Model Predictions
 #' @description Prediction of partial correlation between two nodes and the
-#' corresponding inclusion probabilities from the results of GraphR model alongwith
+#' corresponding inclusion probabilities from the results of GraphR model along with
 #' Bayesian FDR-adjusted p-values.
-#' @param new_df A matrix of new external covarites based on which predicitons
+#' @param new_df Compulsory. A matrix of new external covarites based on which predictions
 #' are made.
 #'
-#' Note: Please standardize continuous external covariates before plug into the
-#' estimation function.
+#' Note: Please ensure that the order and scale of new external covariates are same as those used in the estimation.
 #'
-#' @param graphR_est_res Results from `GraphR_est` function.
-#' @param beta A p \eqn{x} p \eqn{x} q array storing coefficients of external
+#' @param graphR_est_res Optional. Results from `GraphR_est` function.
+#' If graphR_est_res = NULL, then beta, phi and omega_diag are needed simultaneously.
+#' @param beta Optional. A p \eqn{x} p \eqn{x} q array storing coefficients of external
 #' covariates. The \eqn{[i,j,k]} elements represents the effect of k-th
 #' external covariates on regression of j-th node on i-th node.
-#' @param pip A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+#' @param pip Optional. A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
 #' of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
 #' external covariates on regression of j-th node on i-th node.
-#' @param omega_diag A p vector with i-th element representing the inverse
+#' @param omega_diag Optional. A p vector with i-th element representing the inverse
 #' variance of error.
 #' @return
 #' \item{feature_id1, feature_id2}{Indices of nodes.}
@@ -222,12 +234,12 @@ GraphR_est <- function(features, external, # input
 #' \item{FDR_p}{Bayesian FDR-adjusted p values.}
 #' @examples
 #' set.seed(100)
-#' data("pam50")
+#' data("Pam50")
 #'
-#' features <- apply(pam50$features,2,scale) %>% as.matrix()
+#' features <- apply(Pam50$features,2,scale) %>% as.matrix()
 #' features[c(1:5),c(1:5)]
 #'
-#' external <- pam50$external %>% as.matrix()
+#' external <- Pam50$external %>% as.matrix()
 #' external[c(1:5),]
 #'
 #'
