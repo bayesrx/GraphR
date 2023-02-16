@@ -196,13 +196,9 @@ head(pred)
 #> 6   0.7698744     0
 ```
 
-## Shiny App
+## Shiny App and tutorial website
 
 (link to the Shiny App tab only)
-
-## Tutorial website
-
-(link to the tutorial website)
 
 ## Paper
 
@@ -210,4 +206,4 @@ head(pred)
 
 ## Supplementary file
 
-(link to the bookdown file)
+The supplementary materials can be found at this link: https://bookdown.org/bayesrx/graphr_supplementary/.
