@@ -47,16 +47,16 @@ $\tau \sim \Gamma(a_\tau, b_\tau)$.
 The **mandatory inputs** of estimation function are given below.
 
 - **Features (nodes)**: Nodes of the graphs among which edges are built
-  (e.g. a gene expression matrix of dimensions $n \times p$). If set
-  parameter *standardize_feature* as TRUE, nodes will be standardized
-  with mean being 0 and standard deviation being 1.
+  (e.g. a gene expression matrix of dimensions $n \times p$). **Please
+  standardize features before plugging into the function or set
+  standardize_feature = TRUE in the function**.
 
-- **Cont_external,dis_external (continuous and discrete external
-  covariates)**: An $n \times q_1$ and an $n \times q_2$ matrix, with
-  $q_1 + q_2 = q$. At least one kind of external covariate matrix is
-  required. If set parameter *standardize_external* as TRUE, continuous
-  external covariates will be standardized with mean being 0 and
-  standard deviation being 1.
+- **Cont_external and dis_external (continuous and discrete external
+  covariates)**: An $n \times q_1$ and an $n \times q_2$ matrices of
+  continuous and discrete external covariates respectively.
+  $q_1 + q_2 =q$. **Please standardize continuous external covariates
+  before plug into the estimation function or set standardize_external =
+  TRUE in the function.**
 
 The **optional inputs** of estimation function are given below.
 
@@ -67,11 +67,14 @@ The **optional inputs** of estimation function are given below.
 - **$\boldsymbol a_{\boldsymbol \tau}$,
   $\boldsymbol b_{\boldsymbol \tau}$**: Hyper-parameters from
   $\tau \sim Gamma(a_\tau, b_\tau)$. By default
-  $a_\tau = 0.005, b_\tau = 0.005$
+  $a_\tau = 0.005, b_\tau = 0.005$.
+
+- **Standardize_feature, standardize_external**: Standardize features of
+  continuous external covariates. Default as FALSE.
 
 - **Max_iter**: Maximum number of iterations. Default as 2,000.
 
-- **Max_tol**: Maximum tolerance. Default as 0.01.
+- **Max_tol**: Maximum tolerance. Default as 0.001.
 
 **Outputs** of the **GraphR_est()** function are provided below.
 
@@ -98,14 +101,14 @@ FDR-adjusted p-values.
 The **mandatory inputs** of prediction function are given below.
 
 - **New_df**: A matrix of new external covarites based on which
-  predicitons are made. **Note: Please standardize continuous external
-  covariates before plug into the estimation function.**
+  predicitons are made. **Note: Please ensure that the order and scale
+  of new external covariates are same as those used in the estimation.**
 
 The **optional inputs** of prediction function are given below.
 
 - **GraphR_est_res**: Results from `GraphR_est` function. If
-  *GraphR_est_res* are unavailable, please provide other three inputs
-  including *Beta, Omega_diag and pip* with demonstration given below.
+  graphR_est_res = NULL, then the following three inputs: (1) beta; (2)
+  phi; (3) omega_diag are needed.
 
 - **Beta**: A $p \times p \times q$ array storing coefficients of
   external covariates. The $[i,j,k]$ elements represents the effect of
@@ -180,7 +183,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>  158.47   60.28  219.89
+#>  229.66   87.00  321.83
 
 ####### prediction
 new_df <- diag(3)
@@ -188,7 +191,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>    1.14    0.07    1.21
+#>    1.49    0.07    1.62
 head(pred)
 #>   basal_like her2_enriched luminal_ab feature_id1 feature_id2 Pr_inclusion
 #> 1          1             0          0          10           9            1

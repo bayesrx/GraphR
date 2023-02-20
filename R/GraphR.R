@@ -95,7 +95,7 @@ pred_ind <- function(external_ind,
 #' @param standardize_feature Standardize features. Default as FALSE
 #' @param standardize_external Standardize continuous external covariates. Default as FALSE
 #' @param max_iter Maximum iterations. Default as 2,000.
-#' @param max_tol Maximum tolerance. Default as 0.01.
+#' @param max_tol Maximum tolerance. Default as 0.001.
 #' @return
 #' \item{beta}{A p \eqn{\times} p \eqn{\times} q array of coefficients for external
 #' covariates. The \eqn{[i,j,k]} element represents the effect of k-th
