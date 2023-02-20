@@ -35,91 +35,101 @@ library(GraphR)
 
 ## Functions
 
-### GraphR\_est() function
+### GraphR_est() function
 
-The **GraphR\_est()** function can be used to estimate the graphical
+The **GraphR_est()** function can be used to estimate the graphical
 regression coefficients and inclusion probabilities of external
 covariates for the GraphR models. It is suggested to maintain $n/pq >1$
 and efficacy of the method increase with high values of $n/pq$ ratio.
 For priors, we assume $\pi \sim Beta(a_\pi, b_\pi)$ and
 $\tau \sim \Gamma(a_\tau, b_\tau)$.
 
-The **inputs** of estimation function are given below.
+The **mandatory inputs** of estimation function are given below.
 
--   **Features (nodes)**: Nodes of the graphs among which edges are
-    built (e.g. a gene expression matrix of dimensions $n \times p$).
-    **Please standardize features and external covariates before
-    plugging into the function**.
+- **Features (nodes)**: Nodes of the graphs among which edges are built
+  (e.g. a gene expression matrix of dimensions $n \times p$). If set
+  parameter *standardize_feature* as TRUE, nodes will be standardized
+  with mean being 0 and standard deviation being 1.
 
--   **External (external covariates)**: A $n \times q$ matrix of
-    external covariates. **Please standardize continuous external
-    covariates before plug into the estimation function.**
+- **Cont_external,dis_external (continuous and discrete external
+  covariates)**: An $n \times q_1$ and an $n \times q_2$ matrix, with
+  $q_1 + q_2 = q$. At least one kind of external covariate matrix is
+  required. If set parameter *standardize_external* as TRUE, continuous
+  external covariates will be standardized with mean being 0 and
+  standard deviation being 1.
 
--   **$\boldsymbol a_{\boldsymbol \pi}$,
-    $\boldsymbol b_{\boldsymbol \pi}$**: Hyper-parameters from
-    $\pi \sim Beta(a_\pi, b_\pi)$.
+The **optional inputs** of estimation function are given below.
 
--   **$\boldsymbol a_{\boldsymbol \tau}$,
-    $\boldsymbol b_{\boldsymbol \tau}$**: Hyper-parameters from
-    $\tau \sim Gamma(a_\tau, b_\tau)$.
+- **$\boldsymbol a_{\boldsymbol \pi}$,
+  $\boldsymbol b_{\boldsymbol \pi}$**: Hyper-parameters from
+  $\pi \sim Beta(a_\pi, b_\pi)$. By default $a_\pi = 1, b_\pi = 4$.
 
--   **Max\_iter**: Maximum number of iterations.
+- **$\boldsymbol a_{\boldsymbol \tau}$,
+  $\boldsymbol b_{\boldsymbol \tau}$**: Hyper-parameters from
+  $\tau \sim Gamma(a_\tau, b_\tau)$. By default
+  $a_\tau = 0.005, b_\tau = 0.005$
 
--   **Max\_tol**: Maximum tolerance.
+- **Max_iter**: Maximum number of iterations. Default as 2,000.
 
-**Outputs** of the **GraphR\_est()** function are provided below.
+- **Max_tol**: Maximum tolerance. Default as 0.01.
 
--   **Beta (the graphical regression coefficients)**: A
-    $p \times p \times q$ array of coefficients for external covariates.
-    The $[i,j,k]$ element represents the effect of k-th external
-    covariates on regression of j-th node on i-th node.
+**Outputs** of the **GraphR_est()** function are provided below.
 
--   **Phi (posterior inclusion probability)**: A $p \times p \times q$
-    array storing posterior inclusion probability (PIP) of external
-    covariates. The elements represents the PIP of k-th external
-    covariates on regression of j-th node on i-th node.
+- **Beta (the graphical regression coefficients)**: A
+  $p \times p \times q$ array of coefficients for external covariates.
+  The $[i,j,k]$ element represents the effect of k-th external
+  covariates on regression of j-th node on i-th node.
 
--   **Omega\_diag (diagonal elements of precision matrix)**: A p vector
-    with i-th element representing the inverse variance of error.
+- **Phi (posterior inclusion probability)**: A $p \times p \times q$
+  array storing posterior inclusion probability (PIP) of external
+  covariates. The elements represents the PIP of k-th external
+  covariates on regression of j-th node on i-th node.
 
-### GraphR\_pred() function
+- **Omega_diag (diagonal elements of precision matrix)**: A p vector
+  with i-th element representing the inverse variance of error.
 
-The **GraphR\_pred()** function can be used to predict partial
+### GraphR_pred() function
+
+The **GraphR_pred()** function can be used to predict partial
 correlation between two nodes and the corresponding inclusion
 probabilities from the results of GraphR model alongwith Bayesian
 FDR-adjusted p-values.
 
-The **inputs** of estimation function are given below.
+The **mandatory inputs** of prediction function are given below.
 
--   **New\_df**: A matrix of new external covarites based on which
-    predicitons are made. **Note: Please standardize continuous external
-    covariates before plug into the estimation function.**
+- **New_df**: A matrix of new external covarites based on which
+  predicitons are made. **Note: Please standardize continuous external
+  covariates before plug into the estimation function.**
 
--   **GraphR\_est\_res**: Results from `GraphR_est` function.
+The **optional inputs** of prediction function are given below.
 
--   **Beta**: A $p \times p \times q$ array storing coefficients of
-    external covariates. The $[i,j,k]$ elements represents the effect of
-    k-th external covariates on regression of j-th node on i-th node.
+- **GraphR_est_res**: Results from `GraphR_est` function. If
+  *GraphR_est_res* are unavailable, please provide other three inputs
+  including *Beta, Omega_diag and pip* with demonstration given below.
 
--   **Omega\_diag**: A p vector with i-th element representing the
-    inverse variance of error.
+- **Beta**: A $p \times p \times q$ array storing coefficients of
+  external covariates. The $[i,j,k]$ elements represents the effect of
+  k-th external covariates on regression of j-th node on i-th node.
 
--   **Pip**: A $p \times p \times q$ array storing posterior inclusion
-    probability (PIP) of external covariates. The $[i,j,k]$ elements
-    represents the PIP of k-thcexternal covariates on regression of j-th
-    node on i-th node.
+- **Omega_diag**: A p vector with i-th element representing the inverse
+  variance of error.
+
+- **Pip**: A $p \times p \times q$ array storing posterior inclusion
+  probability (PIP) of external covariates. The $[i,j,k]$ elements
+  represents the PIP of k-thcexternal covariates on regression of j-th
+  node on i-th node.
 
 The **output** contains following information.
 
--   **Feature\_id1**, **feature\_id2**: Indices of features or nodes.
+- **Feature_id1**, **feature_id2**: Indices of features or nodes.
 
--   **Pr\_inclusion**: Posterior inclusion probability of connections
-    between two nodes based on “And” rules.
+- **Pr_inclusion**: Posterior inclusion probability of connections
+  between two nodes based on “And” rules.
 
--   **Correlation**: Partial correlation between two nodes. Values with
-    maximum magnitudes are provided.
+- **Correlation**: Partial correlation between two nodes. Values with
+  maximum magnitudes are provided.
 
--   **FDR\_p**: Bayesian FDR-adjusted p values.
+- **FDR_p**: Bayesian FDR-adjusted p values.
 
 ## Example
 
@@ -170,7 +180,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#> 229.044   8.635 239.826
+#>  158.47   60.28  219.89
 
 ####### prediction
 new_df <- diag(3)
@@ -178,7 +188,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>   1.519   0.057   1.586
+#>    1.14    0.07    1.21
 head(pred)
 #>   basal_like her2_enriched luminal_ab feature_id1 feature_id2 Pr_inclusion
 #> 1          1             0          0          10           9            1
@@ -196,9 +206,13 @@ head(pred)
 #> 6   0.7698744     0
 ```
 
-## Shiny App and tutorial website
+## Shiny App
 
 (link to the Shiny App tab only)
+
+## Tutorial website
+
+(link to the tutorial website)
 
 ## Paper
 
@@ -206,4 +220,4 @@ head(pred)
 
 ## Supplementary file
 
-The supplementary materials can be found at this link: https://bookdown.org/bayesrx/graphr_supplementary/.
+[Supplementary](https://bookdown.org/bayesrx/graphr_supplementary/)

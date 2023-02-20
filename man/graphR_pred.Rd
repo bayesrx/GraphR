@@ -13,22 +13,22 @@ GraphR_pred(
 )
 }
 \arguments{
-\item{new_df}{Compulsory. A matrix of new external covarites based on which predictions
+\item{new_df}{A matrix of new external covarites based on which predictions
 are made.
 
 Note: Please ensure that the order and scale of new external covariates are same as those used in the estimation.}
 
-\item{graphR_est_res}{Optional. Results from `GraphR_est` function.
+\item{graphR_est_res}{Results from `GraphR_est` function.
 If graphR_est_res = NULL, then beta, phi and omega_diag are needed simultaneously.}
 
-\item{beta}{Optional. A p \eqn{x} p \eqn{x} q array storing coefficients of external
+\item{beta}{A p \eqn{x} p \eqn{x} q array storing coefficients of external
 covariates. The \eqn{[i,j,k]} elements represents the effect of k-th
 external covariates on regression of j-th node on i-th node.}
 
-\item{omega_diag}{Optional. A p vector with i-th element representing the inverse
+\item{omega_diag}{A p vector with i-th element representing the inverse
 variance of error.}
 
-\item{pip}{Optional. A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+\item{pip}{A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
 of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
 external covariates on regression of j-th node on i-th node.}
 }

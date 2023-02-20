@@ -19,21 +19,21 @@ GraphR_est(
 )
 }
 \arguments{
-\item{features}{Compulsory. Nodes of the graphs among which edges are built (e.g. a gene expression matrix of dimensions n \eqn{\times} p).}
+\item{features}{Nodes of the graphs among which edges are built (e.g. a gene expression matrix of dimensions n \eqn{\times} p).}
 
-\item{cont_external, dis_external}{Compulsory. Continuous and discrete external covariates (n \eqn{\times} \eqn{\text{q}_1} and n \eqn{\times} \eqn{\text{q}_2} matrix, with \eqn{\text{q}_1} + \eqn{\text{q}_2} = q).}
+\item{cont_external, dis_external}{Continuous and discrete external covariates (n \eqn{\times} \eqn{\text{q}_1} and n \eqn{\times} \eqn{\text{q}_2} matrix, with \eqn{\text{q}_1} + \eqn{\text{q}_2} = q).}
 
-\item{a_pi, b_pi}{Optional. \eqn{\pi} ~ Beta(\eqn{a_\pi, b_\pi}). By default \eqn{a_\pi} = 1, \eqn{b_\pi} = 4.}
+\item{a_pi, b_pi}{\eqn{\pi} ~ Beta(\eqn{a_\pi, b_\pi}). By default \eqn{a_\pi} = 1, \eqn{b_\pi} = 4.}
 
-\item{a_tau, b_tau}{Optional. \eqn{\tau} ~ Gamma(\eqn{a_\tau, b_\tau}). By default \eqn{a_\tau} = 0.005, \eqn{b_\tau} = 0.005.}
+\item{a_tau, b_tau}{\eqn{\tau} ~ Gamma(\eqn{a_\tau, b_\tau}). By default \eqn{a_\tau} = 0.005, \eqn{b_\tau} = 0.005.}
 
-\item{standardize_feature}{Optional. Standardize features. Default as FALSE}
+\item{standardize_feature}{Standardize features. Default as FALSE}
 
-\item{standardize_external}{Optional. Standardize continuous external covariates. Default as FALSE}
+\item{standardize_external}{Standardize continuous external covariates. Default as FALSE}
 
-\item{max_iter}{Optional. Maximum iterations. Default as 2,000.}
+\item{max_iter}{Maximum iterations. Default as 2,000.}
 
-\item{max_tol}{Optional. Maximum tolerance. Default as 0.01.}
+\item{max_tol}{Maximum tolerance. Default as 0.01.}
 }
 \value{
 \item{beta}{A p \eqn{\times} p \eqn{\times} q array of coefficients for external

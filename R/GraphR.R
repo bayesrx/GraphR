@@ -88,14 +88,14 @@ pred_ind <- function(external_ind,
 #' @title GraphR Model Estimation
 #' @description Estimate the graphical regression coefficients and inclusion probabilities of external
 #' covariates for the GraphR models.
-#' @param features Compulsory. Nodes of the graphs among which edges are built (e.g. a gene expression matrix of dimensions n \eqn{\times} p).
-#' @param cont_external,dis_external Compulsory. Continuous and discrete external covariates (n \eqn{\times} \eqn{\text{q}_1} and n \eqn{\times} \eqn{\text{q}_2} matrix, with \eqn{\text{q}_1} + \eqn{\text{q}_2} = q).
-#' @param a_pi,b_pi Optional. \eqn{\pi} ~ Beta(\eqn{a_\pi, b_\pi}). By default \eqn{a_\pi} = 1, \eqn{b_\pi} = 4.
-#' @param a_tau,b_tau Optional. \eqn{\tau} ~ Gamma(\eqn{a_\tau, b_\tau}). By default \eqn{a_\tau} = 0.005, \eqn{b_\tau} = 0.005.
-#' @param standardize_feature Optional. Standardize features. Default as FALSE
-#' @param standardize_external Optional. Standardize continuous external covariates. Default as FALSE
-#' @param max_iter Optional. Maximum iterations. Default as 2,000.
-#' @param max_tol Optional. Maximum tolerance. Default as 0.01.
+#' @param features Nodes of the graphs among which edges are built (e.g. a gene expression matrix of dimensions n \eqn{\times} p).
+#' @param cont_external,dis_external Continuous and discrete external covariates (n \eqn{\times} \eqn{\text{q}_1} and n \eqn{\times} \eqn{\text{q}_2} matrix, with \eqn{\text{q}_1} + \eqn{\text{q}_2} = q).
+#' @param a_pi,b_pi \eqn{\pi} ~ Beta(\eqn{a_\pi, b_\pi}). By default \eqn{a_\pi} = 1, \eqn{b_\pi} = 4.
+#' @param a_tau,b_tau \eqn{\tau} ~ Gamma(\eqn{a_\tau, b_\tau}). By default \eqn{a_\tau} = 0.005, \eqn{b_\tau} = 0.005.
+#' @param standardize_feature Standardize features. Default as FALSE
+#' @param standardize_external Standardize continuous external covariates. Default as FALSE
+#' @param max_iter Maximum iterations. Default as 2,000.
+#' @param max_tol Maximum tolerance. Default as 0.01.
 #' @return
 #' \item{beta}{A p \eqn{\times} p \eqn{\times} q array of coefficients for external
 #' covariates. The \eqn{[i,j,k]} element represents the effect of k-th
@@ -208,20 +208,20 @@ GraphR_est <- function(features, cont_external = NULL, dis_external = NULL, # in
 #' @description Prediction of partial correlation between two nodes and the
 #' corresponding inclusion probabilities from the results of GraphR model along with
 #' Bayesian FDR-adjusted p-values.
-#' @param new_df Compulsory. A matrix of new external covarites based on which predictions
+#' @param new_df A matrix of new external covarites based on which predictions
 #' are made.
 #'
 #' Note: Please ensure that the order and scale of new external covariates are same as those used in the estimation.
 #'
-#' @param graphR_est_res Optional. Results from `GraphR_est` function.
+#' @param graphR_est_res Results from `GraphR_est` function.
 #' If graphR_est_res = NULL, then beta, phi and omega_diag are needed simultaneously.
-#' @param beta Optional. A p \eqn{x} p \eqn{x} q array storing coefficients of external
+#' @param beta A p \eqn{x} p \eqn{x} q array storing coefficients of external
 #' covariates. The \eqn{[i,j,k]} elements represents the effect of k-th
 #' external covariates on regression of j-th node on i-th node.
-#' @param pip Optional. A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+#' @param pip A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
 #' of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
 #' external covariates on regression of j-th node on i-th node.
-#' @param omega_diag Optional. A p vector with i-th element representing the inverse
+#' @param omega_diag A p vector with i-th element representing the inverse
 #' variance of error.
 #' @return
 #' \item{feature_id1, feature_id2}{Indices of nodes.}
