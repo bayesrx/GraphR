@@ -33,7 +33,7 @@ GraphR_est(
 
 \item{max_iter}{Maximum iterations. Default as 2,000.}
 
-\item{max_tol}{Maximum tolerance. Default as 0.01.}
+\item{max_tol}{Maximum tolerance. Default as 0.001.}
 }
 \value{
 \item{beta}{A p \eqn{\times} p \eqn{\times} q array of coefficients for external

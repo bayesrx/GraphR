@@ -8,9 +8,12 @@
 #' in both edge and covariate selection and is computationally efficient via usage
 #' of variational Bayes algorithms.
 #'
-#' The 'GraphR' package contains two main functions: GraphR_est and GraphR_pred
-#' which provides users with the estimation results of GraphR model and the predicted
-#' values given the new matrix.
+#' The 'GraphR' package contains three main functions: GraphR_est, GraphR_pred and
+#' GraphR_visualization. The first two functions allow users to obtain the estimation
+#' results of GraphR model and the predicted values given the new external covariates
+#' matrix. GraphR_visualization provides the circular network based on
+#' a given new external covariates vector and thresholds for FDR-p values and
+#' magnitudes of partial correlations.
 #'
 #' @docType package
 #' @name GraphR-package
@@ -19,6 +22,8 @@
 #' @importFrom Rcpp evalCpp
 #' @import dplyr
 #' @import reshape2
+#' @import igraph
+#' @import ggraph
 #' @importFrom ghyp Egig
 #' @exportPattern '^[[:alpha:]]+'
 #' @references

@@ -14,9 +14,12 @@ for different types of heterogeneous graphical model settings. GraphR imposes sp
 in both edge and covariate selection and is computationally efficient via usage
 of variational Bayes algorithms.
 
-The 'GraphR' package contains two main functions: GraphR_est and GraphR_pred
-which provides users with the estimation results of GraphR model and the predicted
-values given the new matrix.
+The 'GraphR' package contains three main functions: GraphR_est, GraphR_pred and
+GraphR_visualization. The first two functions allow users to obtain the estimation
+results of GraphR model and the predicted values given the new external covariates
+matrix. GraphR_visualization provides the circular network based on
+a given new external covariates vector and thresholds for FDR-p values and
+magnitudes of partial correlations.
 }
 \references{
 Stan Development Team (2022). RStan: the R interface to Stan. R package version 2.21.7. https://mc-stan.org

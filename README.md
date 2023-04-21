@@ -69,7 +69,7 @@ The **optional inputs** of estimation function are given below.
   $\tau \sim Gamma(a_\tau, b_\tau)$. By default
   $a_\tau = 0.005, b_\tau = 0.005$.
 
-- **Standardize_feature, standardize_external**: Standardize features of
+- **Standardize_feature, standardize_external**: Standardize features or
   continuous external covariates. Default as FALSE.
 
 - **Max_iter**: Maximum number of iterations. Default as 2,000.
@@ -100,8 +100,8 @@ FDR-adjusted p-values.
 
 The **mandatory inputs** of prediction function are given below.
 
-- **New_df**: A matrix of new external covarites based on which
-  predicitons are made. **Note: Please ensure that the order and scale
+- **New_df**: A matrix of new external covariates based on which
+  predictions are made. **Note: Please ensure that the order and scale
   of new external covariates are same as those used in the estimation.**
 
 The **optional inputs** of prediction function are given below.
@@ -119,7 +119,7 @@ The **optional inputs** of prediction function are given below.
 
 - **Pip**: A $p \times p \times q$ array storing posterior inclusion
   probability (PIP) of external covariates. The $[i,j,k]$ elements
-  represents the PIP of k-thcexternal covariates on regression of j-th
+  represents the PIP of k-th external covariates on regression of j-th
   node on i-th node.
 
 The **output** contains following information.
@@ -134,6 +134,47 @@ The **output** contains following information.
 
 - **FDR_p**: Bayesian FDR-adjusted p values.
 
+### GraphR_visualization() function
+
+The **GraphR_visualization()** function provides a circular network
+based on a given new external covariates vector and thresholds for FDR-p
+values and magnitudes of partial correlations.
+
+The **mandatory inputs** of prediction function are given below.
+
+- **New_vec**: A vector of new external covariates based on which plot
+  is made. **Note: Please ensure that the order and scale of new
+  external covariates are same as those used in the estimation.**
+
+The **optional inputs** of prediction function are given below.
+
+- **GraphR_est_res**: Results from `GraphR_est` function. If
+  graphR_est_res = NULL, then the following three inputs: (1) beta; (2)
+  phi; (3) omega_diag are needed.
+
+- **Beta**: A $p \times p \times q$ array storing coefficients of
+  external covariates. The $[i,j,k]$ elements represents the effect of
+  k-th external covariates on regression of j-th node on i-th node.
+
+- **Omega_diag**: A p vector with i-th element representing the inverse
+  variance of error.
+
+- **Pip**: A $p \times p \times q$ array storing posterior inclusion
+  probability (PIP) of external covariates. The $[i,j,k]$ elements
+  represents the PIP of k-th external covariates on regression of j-th
+  node on i-th node.
+
+- **Fdr_thre**: A numeric value. Threshold for Bayesian FDR adjusted
+  q-values.
+
+- **Magnitude_thre**: A numeric value. Threshold for the magnitude of
+  partial correlations.
+
+The **output** provides a circular network plot. Node sizes represent
+connectivity degrees of the corresponding features while edge widths are
+proportional to the partial correlation between two features. Sign of
+the partial correlations are represented by the color
+
 ## Example
 
 An example code with one of the existing datasets to demonstrate how to
@@ -142,6 +183,12 @@ run the functions and obtain inference.
 ``` r
 set.seed(100)
 library(GraphR)
+#> Warning: replacing previous import 'dplyr::union' by 'igraph::union' when
+#> loading 'GraphR'
+#> Warning: replacing previous import 'dplyr::as_data_frame' by
+#> 'igraph::as_data_frame' when loading 'GraphR'
+#> Warning: replacing previous import 'dplyr::groups' by 'igraph::groups' when
+#> loading 'GraphR'
 library(dplyr)
 #> 
 #> Attaching package: 'dplyr'
@@ -151,6 +198,20 @@ library(dplyr)
 #> The following objects are masked from 'package:base':
 #> 
 #>     intersect, setdiff, setequal, union
+library(ggraph)
+#> Loading required package: ggplot2
+library(igraph)
+#> 
+#> Attaching package: 'igraph'
+#> The following objects are masked from 'package:dplyr':
+#> 
+#>     as_data_frame, groups, union
+#> The following objects are masked from 'package:stats':
+#> 
+#>     decompose, spectrum
+#> The following object is masked from 'package:base':
+#> 
+#>     union
 data("Pam50")
 
 features <- apply(Pam50$features,2,scale) %>% as.matrix()
@@ -173,7 +234,7 @@ external[c(1:5),]
 
 
 system.time(res <- GraphR_est(
-  features,
+  features[,1:10],
   external,
   a_pi = 1,
   b_pi = 4,
@@ -183,7 +244,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>  229.66   87.00  321.83
+#>    0.11    0.03    0.14
 
 ####### prediction
 new_df <- diag(3)
@@ -191,23 +252,31 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>    1.49    0.07    1.62
+#>    0.16    0.00    0.16
 head(pred)
-#>   basal_like her2_enriched luminal_ab feature_id1 feature_id2 Pr_inclusion
-#> 1          1             0          0          10           9            1
-#> 2          1             0          0         103         102            1
-#> 3          1             0          0         105          54            1
-#> 4          1             0          0         113         112            1
-#> 5          1             0          0         123          22            1
-#> 6          1             0          0         129         128            1
+#>   basal_like her2_enriched luminal_ab    feature1       feature2 Pr_inclusion
+#> 1          1             0          0    ACC_pS79           ACC1            1
+#> 2          1             0          0   AKT_pS473      AKT_pT308            1
+#> 3          0             1          0    ACC_pS79           ACC1            1
+#> 4          0             1          0   AKT_pS473      AKT_pT308            1
+#> 5          0             0          1      X4EBP1 X4EBP1_pT37T46            1
+#> 6          0             0          1 X4EBP1_pS65 X4EBP1_pT37T46            1
 #>   Correlation FDR_p
-#> 1   0.6869106     0
-#> 2   0.7938597     0
-#> 3   0.4530799     0
-#> 4   0.8136693     0
-#> 5   0.4157183     0
-#> 6   0.7698744     0
+#> 1   0.9456068     0
+#> 2   0.9343378     0
+#> 3   0.9695224     0
+#> 4   0.9065835     0
+#> 5   0.5139316     0
+#> 6   0.5553497     0
+
+####### visualization
+new_vec <- c(1,0,0)
+GraphR_visualization(new_vec, graphR_est_res = res,
+                     fdr_thre = 0.01, magnitude_thre = 0.4)
+#> Joining with `by = join_by(feature)`
 ```
+
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
 ## Shiny App
 

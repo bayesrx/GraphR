@@ -2,6 +2,8 @@
 
 exportPattern('^[[:alpha:]]+')
 import(dplyr)
+import(ggraph)
+import(igraph)
 import(reshape2)
 importFrom(Rcpp,evalCpp)
 importFrom(ghyp,Egig)
