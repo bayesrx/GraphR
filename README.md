@@ -189,32 +189,9 @@ library(GraphR)
 #> 'igraph::as_data_frame' when loading 'GraphR'
 #> Warning: replacing previous import 'dplyr::groups' by 'igraph::groups' when
 #> loading 'GraphR'
-library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-library(ggraph)
-#> Loading required package: ggplot2
-library(igraph)
-#> 
-#> Attaching package: 'igraph'
-#> The following objects are masked from 'package:dplyr':
-#> 
-#>     as_data_frame, groups, union
-#> The following objects are masked from 'package:stats':
-#> 
-#>     decompose, spectrum
-#> The following object is masked from 'package:base':
-#> 
-#>     union
 data("Pam50")
 
-features <- apply(Pam50$features,2,scale) %>% as.matrix()
+features <- as.matrix(apply(Pam50$features,2,scale)) 
 features[c(1:5),c(1:5)]
 #>      X1433EPSILON     X4EBP1 X4EBP1_pS65 X4EBP1_pT37T46    X53BP1
 #> [1,]   -0.9298711 -1.0325344  -0.1814837      0.3870419 -1.125110
@@ -223,7 +200,7 @@ features[c(1:5),c(1:5)]
 #> [4,]   -0.6566337 -0.2473042   0.2114522      0.9897723  2.134105
 #> [5,]   -0.9476849  1.7654120   2.7128204      2.1739453  1.378139
 
-external <- Pam50$external %>% as.matrix()
+external <- as.matrix(Pam50$external)
 external[c(1:5),]
 #>      basal_like her2_enriched luminal_ab
 #> [1,]          0             1          0
@@ -234,7 +211,7 @@ external[c(1:5),]
 
 
 system.time(res <- GraphR_est(
-  features[,1:10],
+  features,
   external,
   a_pi = 1,
   b_pi = 4,
@@ -244,7 +221,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>    0.11    0.03    0.14
+#>  167.39   59.83  228.89
 
 ####### prediction
 new_df <- diag(3)
@@ -252,22 +229,22 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>    0.16    0.00    0.16
+#>    5.89    0.04    5.95
 head(pred)
-#>   basal_like her2_enriched luminal_ab    feature1       feature2 Pr_inclusion
-#> 1          1             0          0    ACC_pS79           ACC1            1
-#> 2          1             0          0   AKT_pS473      AKT_pT308            1
-#> 3          0             1          0    ACC_pS79           ACC1            1
-#> 4          0             1          0   AKT_pS473      AKT_pT308            1
-#> 5          0             0          1      X4EBP1 X4EBP1_pT37T46            1
-#> 6          0             0          1 X4EBP1_pS65 X4EBP1_pT37T46            1
+#>   basal_like her2_enriched luminal_ab     feature1       feature2 Pr_inclusion
+#> 1          1             0          0     PKCALPHA PKCALPHA_pS657            1
+#> 2          1             0          0      ERALPHA             PR            1
+#> 3          1             0          0 S6_pS235S236   S6_pS240S244            1
+#> 4          1             0          0          BID       STATHMIN            1
+#> 5          1             0          0          YAP      YAP_pS127            1
+#> 6          1             0          0        RAD51    X4EBP1_pT70            1
 #>   Correlation FDR_p
-#> 1   0.9456068     0
-#> 2   0.9343378     0
-#> 3   0.9695224     0
-#> 4   0.9065835     0
-#> 5   0.5139316     0
-#> 6   0.5553497     0
+#> 1   0.7938597     0
+#> 2   0.4530799     0
+#> 3   0.8136693     0
+#> 4   0.4157183     0
+#> 5   0.7698744     0
+#> 6   0.3773436     0
 
 ####### visualization
 new_vec <- c(1,0,0)

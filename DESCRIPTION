@@ -7,7 +7,7 @@ Author: Liying Chen, Satwik Acharyya
 Maintainer: Liying Chen <chenliy@umich.edu>, Satwik Acharyya <satwik91@gmail.com>
 Description: GraphR (Graphical Regression) estiamtes covariate-dependent graphs while incorporating sample heterogenity.
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.7), RcppArmadillo, ghyp, dplyr, reshape2
+Imports: Rcpp (>= 1.0.7), RcppArmadillo, ghyp, dplyr, reshape2, ggraph, igraph, ggplot2
 Depends: R
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 7.2.3

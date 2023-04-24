@@ -131,23 +131,20 @@ by the color
 An example code with one of the existing datasets to demonstrate how to run the functions and obtain inference.
 
 
-```{r}
+```{r, dpi=300, fig.width=7, fig.height=7}
 set.seed(100)
 library(GraphR)
-library(dplyr)
-library(ggraph)
-library(igraph)
 data("Pam50")
 
-features <- apply(Pam50$features,2,scale) %>% as.matrix()
+features <- as.matrix(apply(Pam50$features,2,scale)) 
 features[c(1:5),c(1:5)]
 
-external <- Pam50$external %>% as.matrix()
+external <- as.matrix(Pam50$external)
 external[c(1:5),]
 
 
 system.time(res <- GraphR_est(
-  features[,1:10],
+  features,
   external,
   a_pi = 1,
   b_pi = 4,
@@ -168,6 +165,8 @@ head(pred)
 new_vec <- c(1,0,0)
 GraphR_visualization(new_vec, graphR_est_res = res,
                      fdr_thre = 0.01, magnitude_thre = 0.4)
+
+
 
 ```
 

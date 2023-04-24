@@ -9,6 +9,8 @@ abs_min_fcn <- function(x) {
 
 
 #### function for each individuals
+#' @import dplyr
+#' @import reshape2
 pred_ind <- function(external_ind,
                      beta_ind,phi_ind, omega_diag_ind){
 
@@ -109,6 +111,8 @@ pred_ind <- function(external_ind,
 #' @param standardize_external Standardize continuous external covariates. Default as FALSE
 #' @param max_iter Maximum iterations. Default as 2,000.
 #' @param max_tol Maximum tolerance. Default as 0.001.
+#' @import dplyr
+#' @import reshape2
 #' @return
 #' \item{beta}{A p \eqn{\times} p \eqn{\times} q array of coefficients for external
 #' covariates. The \eqn{[i,j,k]} element represents the effect of k-th
@@ -257,6 +261,8 @@ GraphR_est <- function(features, cont_external = NULL, dis_external = NULL, # in
 #' external covariates on regression of j-th node on i-th node.
 #' @param omega_diag A p vector with i-th element representing the inverse
 #' variance of error.
+#' @import dplyr
+#' @import reshape2
 #' @return
 #' \item{feature_id1, feature_id2}{Indices of nodes.}
 #'
@@ -385,6 +391,11 @@ GraphR_pred <- function(new_df,  ### new external covariates
 #' external covariates on regression of j-th node on i-th node.
 #' @param omega_diag A p vector with i-th element representing the inverse
 #' variance of error.
+#' @import ggraph
+#' @import igraph
+#' @import dplyr
+#' @import reshape2
+#' @import ggplot2
 #' @return
 #' \item{Plot}{Plot of circular networks. Node sizes represent connectivity degrees
 #' of the corresponding features while edge widths are proportional to the partial
@@ -467,13 +478,13 @@ GraphR_visualization <- function(new_vec,  ### new external covariates
                       width = abs(Correlation)),
                   strength = 0.2,
                   alpha = 0.8)+
-    scale_edge_width(name = "Magnitude",
+    scale_edge_width(name = "Partial Correlation Magnitude",
                      breaks = c(0.2,0.4,0.6,0.8),
                      range = 1*edge_abs_range)+
-    scale_edge_color_discrete(name = "Sign", labels = c("Positive", "Negative")) +
+    scale_edge_color_discrete(name = "Partial Correlation Sign", labels = c("Positive", "Negative")) +
     #geom_edge_link(aes(edge_width = width,color = as.factor(sign)))+
     geom_node_point(aes(size=node_size),color = "darkgrey") +
-    scale_size(name = "Sum of Magnitudes",
+    scale_size(name = "Connectivity Degree",
                breaks = c(0.5,1,1.5,2),
                range = 2*node_range) +
     theme_void() +
@@ -503,7 +514,7 @@ GraphR_visualization <- function(new_vec,  ### new external covariates
       legend.spacing.x = unit(0, "mm"),
       legend.spacing.y = unit(0, "mm"))
 
-  return(print(p3))
+  return(p3)
 }
 
 
