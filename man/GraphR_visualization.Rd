@@ -45,7 +45,29 @@ Plot of networks based on the given new external covariates vector
 and thresholds for FDR-p values and magnitudes of partial correlation.
 }
 \examples{
+data("Pam50")
+library(magrittr)
+features <- apply(Pam50$features,2,scale) \%>\% as.matrix()
+features[c(1:5),c(1:5)]
+
+external <- Pam50$external \%>\% as.matrix()
+external[c(1:5),]
+
+
+res <- GraphR_est(
+  features,
+  external,
+  a_pi = 1,
+  b_pi = 4,
+  a_tau = 0.005,
+  b_tau = 0.005,
+  max_iter = 5,
+  max_tol = 0.001
+)
+
 new_vec <- c(1,0,0)
+
+
 GraphR_visualization(new_vec, graphR_est_res = res)
 
 

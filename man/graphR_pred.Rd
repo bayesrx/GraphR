@@ -50,7 +50,7 @@ Bayesian FDR-adjusted p-values.
 \examples{
 set.seed(100)
 data("Pam50")
-
+library(magrittr)
 features <- apply(Pam50$features,2,scale) \%>\% as.matrix()
 features[c(1:5),c(1:5)]
 
@@ -65,7 +65,7 @@ system.time(res <- GraphR_est(
   b_pi = 4,
   a_tau = 0.005,
   b_tau = 0.005,
-  max_iter = 2000,
+  max_iter = 5,
   max_tol = 0.001
 ))
 

@@ -51,6 +51,7 @@ covariates for the GraphR models.
 }
 \examples{
 set.seed(100)
+library(magrittr)
 data("Pam50")
 
 features <- apply(Pam50$features,2,scale) \%>\% as.matrix()
@@ -71,7 +72,7 @@ system.time(res <- GraphR_est(
   b_tau = 0.005,
   standardize_feature = FALSE,
   standardize_external =FALSE,
-  max_iter = 2000,
+  max_iter = 5,
   max_tol = 0.001
 ))
 

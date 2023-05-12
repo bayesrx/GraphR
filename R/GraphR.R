@@ -11,6 +11,7 @@ abs_min_fcn <- function(x) {
 #### function for each individuals
 #' @import dplyr
 #' @import reshape2
+#' @importFrom magrittr `%>%`
 pred_ind <- function(external_ind,
                      beta_ind,phi_ind, omega_diag_ind){
 
@@ -124,6 +125,7 @@ pred_ind <- function(external_ind,
 #' variance of error.}
 #' @examples
 #' set.seed(100)
+#' library(magrittr)
 #' data("Pam50")
 #'
 #' features <- apply(Pam50$features,2,scale) %>% as.matrix()
@@ -144,7 +146,7 @@ pred_ind <- function(external_ind,
 #'   b_tau = 0.005,
 #'   standardize_feature = FALSE,
 #'   standardize_external =FALSE,
-#'   max_iter = 2000,
+#'   max_iter = 5,
 #'   max_tol = 0.001
 #' ))
 #'
@@ -275,7 +277,7 @@ GraphR_est <- function(features, cont_external = NULL, dis_external = NULL, # in
 #' @examples
 #' set.seed(100)
 #' data("Pam50")
-#'
+#' library(magrittr)
 #' features <- apply(Pam50$features,2,scale) %>% as.matrix()
 #' features[c(1:5),c(1:5)]
 #'
@@ -290,7 +292,7 @@ GraphR_est <- function(features, cont_external = NULL, dis_external = NULL, # in
 #'   b_pi = 4,
 #'   a_tau = 0.005,
 #'   b_tau = 0.005,
-#'   max_iter = 2000,
+#'   max_iter = 5,
 #'   max_tol = 0.001
 #' ))
 #'
@@ -403,7 +405,29 @@ GraphR_pred <- function(new_df,  ### new external covariates
 #' by the color}
 #'
 #' @examples
+#' data("Pam50")
+#' library(magrittr)
+#' features <- apply(Pam50$features,2,scale) %>% as.matrix()
+#' features[c(1:5),c(1:5)]
+#'
+#' external <- Pam50$external %>% as.matrix()
+#' external[c(1:5),]
+#'
+#'
+#' res <- GraphR_est(
+#'   features,
+#'   external,
+#'   a_pi = 1,
+#'   b_pi = 4,
+#'   a_tau = 0.005,
+#'   b_tau = 0.005,
+#'   max_iter = 5,
+#'   max_tol = 0.001
+#' )
+#'
 #' new_vec <- c(1,0,0)
+#'
+#'
 #' GraphR_visualization(new_vec, graphR_est_res = res)
 #'
 #'
