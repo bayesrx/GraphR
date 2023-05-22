@@ -183,12 +183,6 @@ run the functions and obtain inference.
 ``` r
 set.seed(100)
 library(GraphR)
-#> Warning: replacing previous import 'dplyr::union' by 'igraph::union' when
-#> loading 'GraphR'
-#> Warning: replacing previous import 'dplyr::as_data_frame' by
-#> 'igraph::as_data_frame' when loading 'GraphR'
-#> Warning: replacing previous import 'dplyr::groups' by 'igraph::groups' when
-#> loading 'GraphR'
 data("Pam50")
 
 features <- as.matrix(apply(Pam50$features,2,scale)) 
@@ -221,7 +215,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>  167.39   59.83  228.89
+#>  238.57   87.30  328.24
 
 ####### prediction
 new_df <- diag(3)
@@ -229,7 +223,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>    5.89    0.04    5.95
+#>    8.66    0.07    8.73
 head(pred)
 #>   basal_like her2_enriched luminal_ab     feature1       feature2 Pr_inclusion
 #> 1          1             0          0     PKCALPHA PKCALPHA_pS657            1
