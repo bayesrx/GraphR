@@ -3,6 +3,11 @@
 #
 # library(ghyp)
 
+#' @title wrap function
+#' @param n sample size
+#' @param e_zbeta_sq expectation
+#' @param len_res_sq length
+#' @noRd
 update_lambda_r <- function(n, e_zbeta_sq,len_res_sq){
   e_inv_lambda_new = Egig((n+2)/2,e_zbeta_sq,len_res_sq,
                           func = "1/x")

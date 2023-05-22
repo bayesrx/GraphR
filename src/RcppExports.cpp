@@ -11,96 +11,6 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// create_Z
-arma::mat create_Z(arma::mat fir_l, arma::mat sec_l);
-RcppExport SEXP _GraphR_create_Z(SEXP fir_lSEXP, SEXP sec_lSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type fir_l(fir_lSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type sec_l(sec_lSEXP);
-    rcpp_result_gen = Rcpp::wrap(create_Z(fir_l, sec_l));
-    return rcpp_result_gen;
-END_RCPP
-}
-// update_tau
-arma::vec update_tau(int p, int q, double a_tau, double b_tau, arma::vec phi_old, arma::vec e_b_sq_s1, arma::vec e_tau_old);
-RcppExport SEXP _GraphR_update_tau(SEXP pSEXP, SEXP qSEXP, SEXP a_tauSEXP, SEXP b_tauSEXP, SEXP phi_oldSEXP, SEXP e_b_sq_s1SEXP, SEXP e_tau_oldSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type p(pSEXP);
-    Rcpp::traits::input_parameter< int >::type q(qSEXP);
-    Rcpp::traits::input_parameter< double >::type a_tau(a_tauSEXP);
-    Rcpp::traits::input_parameter< double >::type b_tau(b_tauSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type phi_old(phi_oldSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type e_b_sq_s1(e_b_sq_s1SEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type e_tau_old(e_tau_oldSEXP);
-    rcpp_result_gen = Rcpp::wrap(update_tau(p, q, a_tau, b_tau, phi_old, e_b_sq_s1, e_tau_old));
-    return rcpp_result_gen;
-END_RCPP
-}
-// update_pi
-arma::vec update_pi(double a_pi, double b_pi, arma::vec phi_old);
-RcppExport SEXP _GraphR_update_pi(SEXP a_piSEXP, SEXP b_piSEXP, SEXP phi_oldSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< double >::type a_pi(a_piSEXP);
-    Rcpp::traits::input_parameter< double >::type b_pi(b_piSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type phi_old(phi_oldSEXP);
-    rcpp_result_gen = Rcpp::wrap(update_pi(a_pi, b_pi, phi_old));
-    return rcpp_result_gen;
-END_RCPP
-}
-// update_lambda
-double update_lambda(arma::mat ztz, arma::vec e_beta, arma::vec var_beta, int n, double len_res_sq);
-RcppExport SEXP _GraphR_update_lambda(SEXP ztzSEXP, SEXP e_betaSEXP, SEXP var_betaSEXP, SEXP nSEXP, SEXP len_res_sqSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type ztz(ztzSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type e_beta(e_betaSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type var_beta(var_betaSEXP);
-    Rcpp::traits::input_parameter< int >::type n(nSEXP);
-    Rcpp::traits::input_parameter< double >::type len_res_sq(len_res_sqSEXP);
-    rcpp_result_gen = Rcpp::wrap(update_lambda(ztz, e_beta, var_beta, n, len_res_sq));
-    return rcpp_result_gen;
-END_RCPP
-}
-// update_mu
-arma::vec update_mu(int p, int q, double e_inv_lambda_new, arma::vec phi_old, arma::vec mu_old, arma::vec e_beta, arma::vec sigma_sq_new, arma::vec response, arma::mat Z);
-RcppExport SEXP _GraphR_update_mu(SEXP pSEXP, SEXP qSEXP, SEXP e_inv_lambda_newSEXP, SEXP phi_oldSEXP, SEXP mu_oldSEXP, SEXP e_betaSEXP, SEXP sigma_sq_newSEXP, SEXP responseSEXP, SEXP ZSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< int >::type p(pSEXP);
-    Rcpp::traits::input_parameter< int >::type q(qSEXP);
-    Rcpp::traits::input_parameter< double >::type e_inv_lambda_new(e_inv_lambda_newSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type phi_old(phi_oldSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type mu_old(mu_oldSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type e_beta(e_betaSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type sigma_sq_new(sigma_sq_newSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type response(responseSEXP);
-    Rcpp::traits::input_parameter< arma::mat >::type Z(ZSEXP);
-    rcpp_result_gen = Rcpp::wrap(update_mu(p, q, e_inv_lambda_new, phi_old, mu_old, e_beta, sigma_sq_new, response, Z));
-    return rcpp_result_gen;
-END_RCPP
-}
-// update_phi
-arma::vec update_phi(arma::vec e_logit_pi_new, arma::vec sigma_sq_new, arma::vec e_tau_new, arma::vec mu_new);
-RcppExport SEXP _GraphR_update_phi(SEXP e_logit_pi_newSEXP, SEXP sigma_sq_newSEXP, SEXP e_tau_newSEXP, SEXP mu_newSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::vec >::type e_logit_pi_new(e_logit_pi_newSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type sigma_sq_new(sigma_sq_newSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type e_tau_new(e_tau_newSEXP);
-    Rcpp::traits::input_parameter< arma::vec >::type mu_new(mu_newSEXP);
-    rcpp_result_gen = Rcpp::wrap(update_phi(e_logit_pi_new, sigma_sq_new, e_tau_new, mu_new));
-    return rcpp_result_gen;
-END_RCPP
-}
 // mfvb
 Rcpp::List mfvb(arma::vec response, arma::mat fir_l, arma::mat sec_l, double a_tau, double b_tau, double a_pi, double b_pi, int max_iter, double max_tol);
 RcppExport SEXP _GraphR_mfvb(SEXP responseSEXP, SEXP fir_lSEXP, SEXP sec_lSEXP, SEXP a_tauSEXP, SEXP b_tauSEXP, SEXP a_piSEXP, SEXP b_piSEXP, SEXP max_iterSEXP, SEXP max_tolSEXP) {
@@ -120,26 +30,9 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _GraphR_rcpp_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_GraphR_create_Z", (DL_FUNC) &_GraphR_create_Z, 2},
-    {"_GraphR_update_tau", (DL_FUNC) &_GraphR_update_tau, 7},
-    {"_GraphR_update_pi", (DL_FUNC) &_GraphR_update_pi, 3},
-    {"_GraphR_update_lambda", (DL_FUNC) &_GraphR_update_lambda, 5},
-    {"_GraphR_update_mu", (DL_FUNC) &_GraphR_update_mu, 9},
-    {"_GraphR_update_phi", (DL_FUNC) &_GraphR_update_phi, 4},
     {"_GraphR_mfvb", (DL_FUNC) &_GraphR_mfvb, 9},
-    {"_GraphR_rcpp_hello_world", (DL_FUNC) &_GraphR_rcpp_hello_world, 0},
     {NULL, NULL, 0}
 };
 

@@ -25,7 +25,7 @@ Rcpp::NumericVector arma2vec(const T& x) {
 // }
 
 
-// [[Rcpp::export]]
+// // [[Rcpp::export]]
 arma::mat create_Z(arma::mat fir_l, arma::mat sec_l) {
   int p = fir_l.n_cols, q = sec_l.n_cols, n = fir_l.n_rows;
   arma::mat out(n,p*q);
@@ -41,7 +41,7 @@ arma::mat create_Z(arma::mat fir_l, arma::mat sec_l) {
 }
 
 
-// [[Rcpp::export]]
+// // [[Rcpp::export]]
 arma::vec update_tau(int p, int q,
                double a_tau, double b_tau,
                arma::vec phi_old, arma::vec e_b_sq_s1, arma::vec e_tau_old){
@@ -58,7 +58,7 @@ arma::vec update_tau(int p, int q,
 }
 
 
-// [[Rcpp::export]]
+// // [[Rcpp::export]]
 arma::vec update_pi(double a_pi, double b_pi,
               arma::vec phi_old){
   Rcpp::NumericVector b = arma2vec(phi_old);
@@ -68,7 +68,7 @@ arma::vec update_pi(double a_pi, double b_pi,
 }
 
 
-// [[Rcpp::export]]
+// // [[Rcpp::export]]
 double update_lambda(arma::mat ztz,
                      arma::vec e_beta, arma::vec var_beta,
                      int n, double len_res_sq){
@@ -81,7 +81,7 @@ double update_lambda(arma::mat ztz,
 }
 
 
-// [[Rcpp::export]]
+// // [[Rcpp::export]]
 arma::vec update_mu(int p, int q, double e_inv_lambda_new,
               arma::vec phi_old, arma::vec mu_old, arma::vec e_beta, arma::vec sigma_sq_new, arma::vec response,
               arma::mat Z){
@@ -98,7 +98,7 @@ arma::vec update_mu(int p, int q, double e_inv_lambda_new,
 }
 
 
-// [[Rcpp::export]]
+// // [[Rcpp::export]]
 arma::vec update_phi(arma::vec e_logit_pi_new, arma::vec sigma_sq_new, arma::vec e_tau_new, arma::vec mu_new){
   arma::vec phi_logit =  e_logit_pi_new + 0.5 * log(sigma_sq_new) +
     0.5 * log(e_tau_new) + 0.5 * square(mu_new)/sigma_sq_new;

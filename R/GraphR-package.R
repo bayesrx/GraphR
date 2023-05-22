@@ -20,17 +20,22 @@
 #' @aliases GraphR
 #' @useDynLib GraphR, .registration = TRUE
 #' @importFrom Rcpp evalCpp
-#' @import dplyr
-#' @import reshape2
-#' @import igraph
+#' @importFrom dplyr select filter mutate group_by summarise summarize full_join cummean arrange
+#' @importFrom reshape2 melt
+#' @importFrom magrittr `%>%`
+#' @importFrom igraph graph_from_data_frame
 #' @import ggraph
+#' @import ggplot2
 #' @importFrom ghyp Egig
-#' @exportPattern '^[[:alpha:]]+'
+# @exportPattern '^[[:alpha:]]+'
+#' @export GraphR_est
+#' @export GraphR_pred
+#' @export GraphR_visualization
+#' @export update_lambda_r
 #' @references
 #' Stan Development Team (2022). RStan: the R interface to Stan. R package version 2.21.7. https://mc-stan.org
 #'
 NULL
-
 
 
 

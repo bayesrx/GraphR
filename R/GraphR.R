@@ -8,10 +8,8 @@ abs_min_fcn <- function(x) {
 }
 
 
+
 #### function for each individuals
-#' @import dplyr
-#' @import reshape2
-#' @importFrom magrittr `%>%`
 pred_ind <- function(external_ind,
                      beta_ind,phi_ind, omega_diag_ind){
 
@@ -57,7 +55,7 @@ pred_ind <- function(external_ind,
   node_phi_list <- node_phi_list %>%
     mutate(ind_max = pmax(as.numeric(Var1),as.numeric(Var2)),
            ind_min = pmin(as.numeric(Var1),as.numeric(Var2))) %>%
-    dplyr::group_by(ind_max, ind_min) %>%
+    group_by(ind_max, ind_min) %>%
     summarise(phi_min = min(value),
               phi_max = max(value),
               feature1 = Var1[which.min(as.numeric(Var1))],
@@ -78,7 +76,7 @@ pred_ind <- function(external_ind,
   cor_list <- cor_list %>%
     mutate(ind_max = pmax(as.numeric(Var1),as.numeric(Var2)),
            ind_min = pmin(as.numeric(Var1),as.numeric(Var2))) %>%
-    dplyr::group_by(ind_max, ind_min) %>%
+    group_by(ind_max, ind_min) %>%
     summarise(cor_max = abs_max_fcn(value),
               cor_min = abs_min_fcn(value),
               feature1 = Var1[which.min(as.numeric(Var1))],
@@ -87,12 +85,27 @@ pred_ind <- function(external_ind,
 
   cor_phi <- merge(node_phi_list,cor_list)
   cor_phi <- mutate(cor_phi, id = id)
-  cor_phi <- dplyr::select(cor_phi,-ind_max,-ind_min)
+  cor_phi <- select(cor_phi,-ind_max,-ind_min)
   return(cor_phi)
 
 }
 
 
+#' @title wrap function
+#' @param n sample size
+#' @param e_zbeta_sq expectation
+#' @param len_res_sq length
+#' @noRd
+update_lambda_r <- function(n, e_zbeta_sq,len_res_sq){
+  e_inv_lambda_new = Egig((n+2)/2,e_zbeta_sq,len_res_sq,
+                          func = "1/x")
+  if (!is.finite(e_inv_lambda_new)){
+    e_inv_lambda_new = sqrt(len_res_sq/e_zbeta_sq)*
+      ((n+2)/2 + sqrt(((n+2)/2)^2 + e_zbeta_sq*len_res_sq))/(sqrt(e_zbeta_sq*len_res_sq)) -
+      (n+2)/e_zbeta_sq
+  }
+  return(e_inv_lambda_new)
+}
 
 
 
@@ -112,8 +125,6 @@ pred_ind <- function(external_ind,
 #' @param standardize_external Standardize continuous external covariates. Default as FALSE
 #' @param max_iter Maximum iterations. Default as 2,000.
 #' @param max_tol Maximum tolerance. Default as 0.001.
-#' @import dplyr
-#' @import reshape2
 #' @return
 #' \item{beta}{A p \eqn{\times} p \eqn{\times} q array of coefficients for external
 #' covariates. The \eqn{[i,j,k]} element represents the effect of k-th
@@ -238,7 +249,7 @@ GraphR_est <- function(features, cont_external = NULL, dis_external = NULL, # in
 
   return(list(
     beta = beta_list,
-    pip = phi_list,
+    phi = phi_list,
     omega_diag = lambda_vec))
 }
 
@@ -258,13 +269,11 @@ GraphR_est <- function(features, cont_external = NULL, dis_external = NULL, # in
 #' @param beta A p \eqn{x} p \eqn{x} q array storing coefficients of external
 #' covariates. The \eqn{[i,j,k]} elements represents the effect of k-th
 #' external covariates on regression of j-th node on i-th node.
-#' @param pip A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+#' @param phi A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
 #' of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
 #' external covariates on regression of j-th node on i-th node.
 #' @param omega_diag A p vector with i-th element representing the inverse
 #' variance of error.
-#' @import dplyr
-#' @import reshape2
 #' @return
 #' \item{feature_id1, feature_id2}{Indices of nodes.}
 #'
@@ -352,14 +361,14 @@ GraphR_pred <- function(new_df,  ### new external covariates
   cor_phi_list2 <- Reduce(rbind, cor_phi_list)
   cor_phi_list2 <- full_join(as.data.frame(new_df),
                              cor_phi_list2, by ="id",multiple = "all") %>%
-    dplyr::select(-id)
+    select(-id)
   colnames(cor_phi_list2)[c(1:q)] <- dimnames(beta)[[3]]
 
 
   cor_phi_list2 <- mutate(cor_phi_list2, q = 1-phi_min) %>%
     arrange(q) %>%
     mutate(fdr_p = cummean(q)) %>%
-    dplyr::select(-q,-phi_max,-cor_min)
+    select(-q,-phi_max,-cor_min)
 
   # write.csv(cor_phi_list, "location_scale_res_all.csv")
   cor_phi_list2$cor_max <- ifelse(cor_phi_list2$cor_max > 1,1,cor_phi_list2$cor_max)
@@ -388,16 +397,13 @@ GraphR_pred <- function(new_df,  ### new external covariates
 #' @param beta A p \eqn{x} p \eqn{x} q array storing coefficients of external
 #' covariates. The \eqn{[i,j,k]} elements represents the effect of k-th
 #' external covariates on regression of j-th node on i-th node.
-#' @param pip A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+#' @param phi A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
 #' of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
 #' external covariates on regression of j-th node on i-th node.
 #' @param omega_diag A p vector with i-th element representing the inverse
 #' variance of error.
-#' @import ggraph
-#' @import igraph
-#' @import dplyr
-#' @import reshape2
-#' @import ggplot2
+#' @param fdr_thre FDR-controlled significance level. Default as 0.01
+#' @param magnitude_thre Threshold for magnitude of selected partial correlations. Default as 0.4
 #' @return
 #' \item{Plot}{Plot of circular networks. Node sizes represent connectivity degrees
 #' of the corresponding features while edge widths are proportional to the partial
@@ -475,9 +481,9 @@ GraphR_visualization <- function(new_vec,  ### new external covariates
     filter(FDR_p <= fdr_thre) %>%
     filter(abs(Correlation) >= magnitude_thre)
 
-  sum_f1 <- cor_phi_list %>% dplyr::group_by(feature1) %>%
+  sum_f1 <- cor_phi_list %>% group_by(feature1) %>%
     summarise(cor_sum1 = sum(abs(Correlation)))
-  sum_f2 <- cor_phi_list %>% dplyr::group_by(feature2) %>%
+  sum_f2 <- cor_phi_list %>% group_by(feature2) %>%
     summarise(cor_sum2 = sum(abs(Correlation)))
   colnames(sum_f1)[1] = colnames(sum_f2)[1] = "feature"
   sum_all <- full_join(sum_f1,sum_f2)

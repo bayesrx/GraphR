@@ -25,12 +25,12 @@ If graphR_est_res = NULL, then beta, phi and omega_diag are needed simultaneousl
 covariates. The \eqn{[i,j,k]} elements represents the effect of k-th
 external covariates on regression of j-th node on i-th node.}
 
-\item{omega_diag}{A p vector with i-th element representing the inverse
-variance of error.}
-
-\item{pip}{A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+\item{phi}{A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
 of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
 external covariates on regression of j-th node on i-th node.}
+
+\item{omega_diag}{A p vector with i-th element representing the inverse
+variance of error.}
 }
 \value{
 \item{feature_id1, feature_id2}{Indices of nodes.}

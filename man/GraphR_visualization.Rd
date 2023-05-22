@@ -27,12 +27,16 @@ If graphR_est_res = NULL, then beta, phi and omega_diag are needed simultaneousl
 covariates. The \eqn{[i,j,k]} elements represents the effect of k-th
 external covariates on regression of j-th node on i-th node.}
 
+\item{phi}{A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
+of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
+external covariates on regression of j-th node on i-th node.}
+
 \item{omega_diag}{A p vector with i-th element representing the inverse
 variance of error.}
 
-\item{pip}{A p \eqn{x} p \eqn{x} q array storing posterior inclusion probability (PIP)
-of external covariates. The \eqn{[i,j,k]} elements represents the PIP of k-th
-external covariates on regression of j-th node on i-th node.}
+\item{fdr_thre}{FDR-controlled significance level. Default as 0.01}
+
+\item{magnitude_thre}{Threshold for magnitude of selected partial correlations. Default as 0.4}
 }
 \value{
 \item{Plot}{Plot of circular networks. Node sizes represent connectivity degrees
