@@ -171,14 +171,16 @@ GraphR_visualization(new_vec, graphR_est_res = res,
 ```
 
 
-## Shiny App 
-(link to the Shiny App tab only)
-
-## Tutorial website
-(link to the tutorial website)
+## Shiny App and Tutorial website
+[Shiny App](https://bayesrx.shinyapps.io/GraphR/)
 
 ## Paper 
-(Link to the paper) 
+Liying Chen$^{*}$, Satwik Acharyya$^{*}$, Chunyu Luo, Yang Ni, Veerabhadran Baladandayuthapani (2023). Probabilistic Graphical Modeling under Heterogeneity.
 
 ## Supplementary file 
 [Supplementary](https://bookdown.org/bayesrx/graphr_supplementary/)
+
+## Points to note
++ We recommend to standardize continuous external covariates while plugging into the functions.
+
++ It is suggested to maintain $n/pq > 1$ and efficacy of the method increase with high values of $n/pq$ ratio.
