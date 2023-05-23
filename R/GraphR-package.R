@@ -27,6 +27,7 @@
 #' @import ggraph
 #' @import ggplot2
 #' @importFrom ghyp Egig
+#' @importFrom utils globalVariables
 # @exportPattern '^[[:alpha:]]+'
 #' @export GraphR_est
 #' @export GraphR_pred

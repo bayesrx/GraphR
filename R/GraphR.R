@@ -1,3 +1,7 @@
+utils::globalVariables(c("id","phi_min","phi_max","cor_min","cor_max","FDR_p",
+                "Correlation","feature1","feature2","cor_sum1","cor_sum2",
+                "feature","name","x","y","Var1","Var2","ind_max","ind_min","value"))
+
 ######## pre_function for prediction
 abs_max_fcn <- function(x) {
   return(x[which(abs(x) == max(abs(x)))])
