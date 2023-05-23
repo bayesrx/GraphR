@@ -215,7 +215,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>  174.00   61.89  236.31
+#> 117.250  16.453 135.071
 
 ####### prediction
 new_df <- diag(3)
@@ -223,7 +223,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>    5.98    0.01    6.00
+#>   3.269   0.020   3.291
 head(pred)
 #>   basal_like her2_enriched luminal_ab     feature1       feature2 Pr_inclusion
 #> 1          1             0          0     PKCALPHA PKCALPHA_pS657            1
@@ -249,18 +249,24 @@ GraphR_visualization(new_vec, graphR_est_res = res,
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
-## Shiny App
+## Shiny App and Tutorial website
 
-(link to the Shiny App tab only)
-
-## Tutorial website
-
-(link to the tutorial website)
+[Shiny App](https://bayesrx.shinyapps.io/GraphR/)
 
 ## Paper
 
-(Link to the paper)
+Liying Chen*, Satwik Acharyya*, Chunyu Luo, Yang Ni, Veerabhadran
+Baladandayuthapani (2023). Probabilistic Graphical Modeling under
+Heterogeneity.
 
 ## Supplementary file
 
 [Supplementary](https://bookdown.org/bayesrx/graphr_supplementary/)
+
+## Points to note
+
+- We recommend to standardize continuous external covariates while
+  plugging into the functions.
+
+- It is suggested to maintain $n/pq > 1$ and efficacy of the method
+  increase with high values of $n/pq$ ratio.
