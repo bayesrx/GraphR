@@ -215,7 +215,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#> 117.601  16.635 135.914
+#> 117.250  16.453 135.071
 
 ####### prediction
 new_df <- diag(3)
@@ -223,7 +223,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>   3.332   0.028   3.423
+#>   3.269   0.020   3.291
 head(pred)
 #>   basal_like her2_enriched luminal_ab     feature1       feature2 Pr_inclusion
 #> 1          1             0          0     PKCALPHA PKCALPHA_pS657            1
@@ -255,9 +255,9 @@ GraphR_visualization(new_vec, graphR_est_res = res,
 
 ## Paper
 
-Liying Chen$^{*}$, Satwik Acharyya$^{*}$, Chunyu Luo, Yang Ni,
-Veerabhadran Baladandayuthapani (2023). Probabilistic Graphical Modeling
-under Heterogeneity.
+Liying Chen*, Satwik Acharyya*, Chunyu Luo, Yang Ni, Veerabhadran
+Baladandayuthapani (2023). Probabilistic Graphical Modeling under
+Heterogeneity.
 
 ## Supplementary file
 
