@@ -4,7 +4,7 @@
 # GraphR overview
 
 <center>
-<img src="GraphR_Method_plot_final.png" width="600" height="600" >
+<img src="GraphR_Method_plot.jpg" width="600" >
 </center>
 
 The GraphR (Graphical Regression) is a flexible approach which
@@ -215,7 +215,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#> 117.250  16.453 135.071
+#>  198.52   76.59  278.38
 
 ####### prediction
 new_df <- diag(3)
@@ -223,7 +223,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>   3.269   0.020   3.291
+#>    6.70    0.08    6.82
 head(pred)
 #>   basal_like her2_enriched luminal_ab     feature1       feature2 Pr_inclusion
 #> 1          1             0          0     PKCALPHA PKCALPHA_pS657            1

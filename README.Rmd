@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # GraphR overview
 
-<center><img src="GraphR_Method_plot_final.png" width="600" height="600" ></center>
+<center><img src="GraphR_Method_plot.jpg" width="600" ></center>
 
 The GraphR (Graphical Regression) is a flexible approach which incorporates sample heterogenity and enables covariate-dependent graphs. Our regression-based method provides a functional mapping from the covariate space to precision matrix for different types of heterogeneous graphical model settings. GraphR imposes sparsity in both edge and covariate selection and computationally efficient via use of variational Bayes algorithms. The method is versatile to incorporate different type of covariates such as <br>
 (I) **binary** (control and disease specific graphs), <br>
