@@ -231,6 +231,7 @@ GraphR_est <- function(features, cont_external = NULL, dis_external = NULL, # in
   }
 
   external <- as.matrix(external)
+  q <- ncol(external)
 
 
   if (n <= p*q){
