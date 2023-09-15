@@ -199,7 +199,7 @@ GraphR_est <- function(features, cont_external = NULL, dis_external = NULL, # in
     }
 
     if (!is.null(dis_external)){
-      dis_ex_name <- colnames(cont_external)
+      dis_ex_name <- colnames(dis_external)
       dis_external <- as.matrix(dis_external)
 
       if (is.null(dis_ex_name)){
