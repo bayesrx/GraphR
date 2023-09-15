@@ -5,3 +5,7 @@ mfvb <- function(response, fir_l, sec_l, a_tau, b_tau, a_pi, b_pi, max_iter, max
     .Call(`_GraphR_mfvb`, response, fir_l, sec_l, a_tau, b_tau, a_pi, b_pi, max_iter, max_tol)
 }
 
+rcpp_hello_world <- function() {
+    .Call(`_GraphR_rcpp_hello_world`)
+}
+

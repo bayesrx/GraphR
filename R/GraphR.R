@@ -184,24 +184,39 @@ GraphR_est <- function(features, cont_external = NULL, dis_external = NULL, # in
   features <- as.matrix(features)
 
 
-  external_colid <- c(colnames(cont_external),colnames(dis_external))
-  if (!is.null(cont_external)){
-    if (standardize_external){
+  #external_colid <- c(colnames(cont_external),colnames(dis_external))
+  if ((is.null(cont_external)) & (is.null(dis_external))){
+    stop("External covariates are required")
+  }
+
+  if (standardize_external){
+    if (is.null(cont_external)) {
+      stop("Continuous external covariates are required")
+    } else{
       cont_external <- apply(cont_external,2,scale) %>% as.matrix()
     }
-    if (!is.null(dis_external)){
-      external <- cbind(cont_external,dis_external)
-    } else{
-      external <- cont_external
-    }
-  } else{
-    if (!is.null(dis_external)){
-      external <- dis_external
-    } else{
-      stop("External covariates are required")
-    }
   }
+
+  external <- cbind(cont_external,dis_external)
   q <- ncol(external)
+  external_colid <- c(colnames(cont_external),colnames(dis_external))
+  # if (!is.null(cont_external)){
+  #   if (standardize_external){
+  #     cont_external <- apply(cont_external,2,scale) %>% as.matrix()
+  #   }
+  #   if (!is.null(dis_external)){
+  #     external <- cbind(cont_external,dis_external)
+  #   } else{
+  #     external <- cont_external
+  #   }
+  # } else{
+  #   if (!is.null(dis_external)){
+  #     external <- dis_external
+  #   } else{
+  #     stop("External covariates are required")
+  #   }
+  # }
+
   if (is.null(external_colid)){
     external_colid <- paste0("external",c(1:q),recycle0 = TRUE)
   }
