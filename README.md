@@ -215,7 +215,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>  198.52   76.59  278.38
+#>  425.69  143.47  625.37
 
 ####### prediction
 new_df <- diag(3)
@@ -223,7 +223,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>    6.70    0.08    6.82
+#>   17.56    0.17   18.53
 head(pred)
 #>   basal_like her2_enriched luminal_ab     feature1       feature2 Pr_inclusion
 #> 1          1             0          0     PKCALPHA PKCALPHA_pS657            1
@@ -256,8 +256,8 @@ GraphR_visualization(new_vec, graphR_est_res = res,
 ## Paper
 
 Liying Chen*, Satwik Acharyya*, Chunyu Luo, Yang Ni, Veerabhadran
-Baladandayuthapani (2023). Probabilistic Graphical Modeling under
-Heterogeneity.
+Baladandayuthapani (2023). GraphR: a probabilistic modeling framework
+for genomic networks incorporating sample heterogeneity.
 
 ## Supplementary file
 

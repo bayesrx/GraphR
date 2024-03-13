@@ -175,7 +175,7 @@ GraphR_visualization(new_vec, graphR_est_res = res,
 [Shiny App](https://bayesrx.shinyapps.io/GraphR/)
 
 ## Paper 
-Liying Chen*, Satwik Acharyya*, Chunyu Luo, Yang Ni, Veerabhadran Baladandayuthapani (2023). Probabilistic Graphical Modeling under Heterogeneity.
+Liying Chen*, Satwik Acharyya*, Chunyu Luo, Yang Ni, Veerabhadran Baladandayuthapani (2023). GraphR: a probabilistic modeling framework for genomic networks incorporating sample heterogeneity.
 
 ## Supplementary file 
 [Supplementary](https://bookdown.org/bayesrx/graphr_supplementary/)
