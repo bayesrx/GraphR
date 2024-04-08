@@ -215,7 +215,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>  425.69  143.47  625.37
+#>  155.48   55.95  216.70
 
 ####### prediction
 new_df <- diag(3)
@@ -223,7 +223,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>   17.56    0.17   18.53
+#>    5.83    0.01    6.03
 head(pred)
 #>   basal_like her2_enriched luminal_ab     feature1       feature2 Pr_inclusion
 #> 1          1             0          0     PKCALPHA PKCALPHA_pS657            1
@@ -256,8 +256,9 @@ GraphR_visualization(new_vec, graphR_est_res = res,
 ## Paper
 
 Liying Chen*, Satwik Acharyya*, Chunyu Luo, Yang Ni, Veerabhadran
-Baladandayuthapani (2023). GraphR: a probabilistic modeling framework
-for genomic networks incorporating sample heterogeneity.
+Baladandayuthapani (2023). GraphR: A probabilistic graphical modeling
+framework enables estimation of heterogeneous sample-specific and
+spatial genomic networks.
 
 ## Supplementary file
 
