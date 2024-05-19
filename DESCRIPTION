@@ -1,6 +1,6 @@
 Package: GraphR
 Type: Package
-Title: GraphR: A probabilistic graphical modeling framework enables estimation of heterogeneous sample-specific and spatial genomic networks
+Title: GraphR: a probabilistic modeling framework for genomic networks incorporating sample heterogeneity
 Version: 1.0
 Date: 2022-10-31
 Author: Liying Chen, Satwik Acharyya
