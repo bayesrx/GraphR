@@ -215,7 +215,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>  246.08   89.72  372.39
+#>  178.33   66.35  247.79
 
 ####### prediction
 new_df <- diag(3)
@@ -223,7 +223,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>   11.07    0.06   12.67
+#>    6.31    0.03    6.43
 head(pred)
 #>   basal_like her2_enriched luminal_ab     feature1       feature2 Pr_inclusion
 #> 1          1             0          0     PKCALPHA PKCALPHA_pS657            1
