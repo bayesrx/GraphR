@@ -215,7 +215,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>  178.33   66.35  247.79
+#>  245.33   85.25  343.42
 
 ####### prediction
 new_df <- diag(3)
@@ -223,7 +223,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>    6.31    0.03    6.43
+#>   12.07    0.13   13.47
 head(pred)
 #>   basal_like her2_enriched luminal_ab     feature1       feature2 Pr_inclusion
 #> 1          1             0          0     PKCALPHA PKCALPHA_pS657            1
@@ -233,12 +233,12 @@ head(pred)
 #> 5          1             0          0          YAP      YAP_pS127            1
 #> 6          1             0          0        RAD51    X4EBP1_pT70            1
 #>   Correlation FDR_p
-#> 1   0.7938597     0
-#> 2   0.4530799     0
-#> 3   0.8136693     0
-#> 4   0.4157183     0
-#> 5   0.7698744     0
-#> 6   0.3773436     0
+#> 1   0.9437799     0
+#> 2   0.6636060     0
+#> 3   0.8234817     0
+#> 4   0.4225435     0
+#> 5   0.6644388     0
+#> 6   0.3727224     0
 
 ####### visualization
 new_vec <- c(1,0,0)

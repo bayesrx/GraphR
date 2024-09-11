@@ -68,7 +68,7 @@ pred_ind <- function(external_ind,
 
 
   ####### correlation
-  cor_list <- apply(cor_list,2, function(x) -x/omega_diag_ind)
+  cor_list <- -cor_list/sqrt(outer(omega_diag_ind, omega_diag_ind))
   cor_list <- melt(cor_list)  %>%
     filter(Var1 != Var2)
 
