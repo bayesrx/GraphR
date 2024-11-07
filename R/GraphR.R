@@ -473,7 +473,8 @@ GraphR_pred <- function(new_df,  ### new external covariates
 GraphR_visualization <- function(new_vec,  ### new external covariates
                         graphR_est_res = NULL,  ### results obtained from graphR_est
                         beta = NULL, phi = NULL, omega_diag = NULL,
-                        fdr_thre = 0.01, magnitude_thre = 0.4){
+                        fdr_thre = 0.01, magnitude_thre = 0.4,
+                        max_size_node, max_size_edge){
 
   #graphR_est_res <- res
   if (is.null(graphR_est_res) ==FALSE){
@@ -528,8 +529,18 @@ GraphR_visualization <- function(new_vec,  ### new external covariates
   g <- graph_from_data_frame(cor_phi_list, directed=FALSE, vertices=sum_all)
   node_range = c(min(sum_all$node_size),
                       max(sum_all$node_size))
+  node_break <- c(floor(node_range[1]), ceiling(node_range[2]))
+  node_break <- seq(from = node_break[1], to = node_break[2],
+                    length.out = 5)
+  node_break <- round(node_break, digits = 2)
+
   edge_abs_range = c(min(abs(cor_phi_list$Correlation)),
                           max(abs(cor_phi_list$Correlation)))
+  edge_break <- c(floor(edge_abs_range[1]), ceiling(edge_abs_range[2]))
+  edge_break <- seq(from = edge_break[1], to = edge_break[2],
+                    length.out = 5)
+  edge_break <- round(edge_break, digits = 2)
+
   node_size <- sum_all$node_size
   p3 <- ggraph(g, layout = "circle") +
     #geom_edge_link() +
@@ -538,15 +549,17 @@ GraphR_visualization <- function(new_vec,  ### new external covariates
                       width = abs(Correlation)),
                   strength = 0.2,
                   alpha = 0.8)+
-    scale_edge_width(name = "Partial Correlation Magnitude",
-                     breaks = c(0.2,0.4,0.6,0.8),
-                     range = 1*edge_abs_range)+
+    scale_edge_width_binned(name = "Partial Correlation Magnitude",
+                     breaks = edge_break[-c(1,5)],
+                     range = edge_abs_range,
+                     max_size = max_size_edge)+
     scale_edge_color_discrete(name = "Partial Correlation Sign", labels = c("Positive", "Negative")) +
     #geom_edge_link(aes(edge_width = width,color = as.factor(sign)))+
     geom_node_point(aes(size=node_size),color = "darkgrey") +
-    scale_size(name = "Connectivity Degree",
-               breaks = c(0.5,1,1.5,2),
-               range = 2*node_range) +
+    scale_size_binned(name = "Connectivity Degree",
+               breaks = node_break[-c(1,5)],
+               range = node_range,
+               max_size = max_size_node) +
     theme_void() +
     #guides(size = "none")+
     #theme(legend.position = "none") +
