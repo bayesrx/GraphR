@@ -474,7 +474,7 @@ GraphR_visualization <- function(new_vec,  ### new external covariates
                         graphR_est_res = NULL,  ### results obtained from graphR_est
                         beta = NULL, phi = NULL, omega_diag = NULL,
                         fdr_thre = 0.01, magnitude_thre = 0.4,
-                        max_size_node, max_size_edge){
+                        scale_size_node =2, scale_size_edge =1){
 
   #graphR_est_res <- res
   if (is.null(graphR_est_res) ==FALSE){
@@ -549,17 +549,15 @@ GraphR_visualization <- function(new_vec,  ### new external covariates
                       width = abs(Correlation)),
                   strength = 0.2,
                   alpha = 0.8)+
-    scale_edge_width_binned(name = "Partial Correlation Magnitude",
+    scale_edge_width(name = "Partial Correlation Magnitude",
                      breaks = edge_break[-c(1,5)],
-                     range = edge_abs_range,
-                     max_size = max_size_edge)+
+                     range = scale_size_edge * edge_abs_range)+
     scale_edge_color_discrete(name = "Partial Correlation Sign", labels = c("Positive", "Negative")) +
     #geom_edge_link(aes(edge_width = width,color = as.factor(sign)))+
     geom_node_point(aes(size=node_size),color = "darkgrey") +
-    scale_size_binned(name = "Connectivity Degree",
+    scale_size(name = "Connectivity Degree",
                breaks = node_break[-c(1,5)],
-               range = node_range,
-               max_size = max_size_node) +
+               range = node_range * scale_size_node) +
     theme_void() +
     #guides(size = "none")+
     #theme(legend.position = "none") +

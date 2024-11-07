@@ -170,10 +170,13 @@ The **optional inputs** of prediction function are given below.
 - **Magnitude_thre**: A numeric value. Threshold for the magnitude of
   partial correlations.
 
+- **scale_size_node**, **scale_size_edge**: Numeric values. Adjust the
+  size of nodes or edges in plots.
+
 The **output** provides a circular network plot. Node sizes represent
 connectivity degrees of the corresponding features while edge widths are
 proportional to the partial correlation between two features. Sign of
-the partial correlations are represented by the color
+the partial correlations are represented by the color.
 
 ## Example
 
@@ -215,7 +218,7 @@ system.time(res <- GraphR_est(
   max_tol = 0.001
 ))
 #>    user  system elapsed 
-#>  245.33   85.25  343.42
+#>  154.17   58.23  212.92
 
 ####### prediction
 new_df <- diag(3)
@@ -223,7 +226,7 @@ colnames(new_df) <- colnames(external)
 
 system.time(pred <- GraphR_pred(new_df, res))
 #>    user  system elapsed 
-#>   12.07    0.13   13.47
+#>    5.97    0.00    5.97
 head(pred)
 #>   basal_like her2_enriched luminal_ab     feature1       feature2 Pr_inclusion
 #> 1          1             0          0     PKCALPHA PKCALPHA_pS657            1
@@ -243,7 +246,8 @@ head(pred)
 ####### visualization
 new_vec <- c(1,0,0)
 GraphR_visualization(new_vec, graphR_est_res = res,
-                     fdr_thre = 0.01, magnitude_thre = 0.4)
+                     fdr_thre = 0.01, magnitude_thre = 0.4,
+                     scale_size_node =2, scale_size_edge =1)
 #> Joining with `by = join_by(feature)`
 ```
 
